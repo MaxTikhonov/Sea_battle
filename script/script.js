@@ -15,7 +15,7 @@ let sidesOfField = {
   rUpCorner: ["09"],
   lDownCorner: ["90"],
   rDownCorner: ["99"]
-};
+}; // объект, содержащий особенные массивы. дело в том, что когда мы резервируем определенную клетку поля под корабль. то нам надо удалить все другие клетки вокруг нее, чтобы она ни дай бог не соприкасалась с другими кораблями. но удалять нужно определенные клетки и эти клетки разные, в зависимости от того, в каком именно месте находится зарезервированная нами клетка для корабля. именно поэтому нужны эти массивы. они включают в себя набор клеток. и для каждой группы этих клеток количество удаляемых вокруг них клеток будет разниться
 
 let secondFloorOfTwo = {
   a: function (x) {
@@ -331,7 +331,6 @@ function crTwoFloor() {
 
 function arrayRandElement(arr) {
   var rand = Math.floor(Math.random() * arr.length);
-  console.log(rand);
   return arr[rand];
 } // получает массив, создает рандомный индекс, который не больше чем последний индекс переданного массива. по этому индексу возращает элемент из переданного массива
 
@@ -373,7 +372,7 @@ function checkInput2(arr, nextArr, rowCol) {
 
 function checkInputAndExclude(rowCol) {
   if (rowCol == sidesOfField.lUpCorner[0]) {
-    operationFuncs.if00(allField, rowCol);
+    operationFuncs.if00(allField, rowCol); // функция, которая удаляет 3 клетки вокруг элемента "00"
     delElMassiv(sidesOfField.lUpCorner, 0);
   } else if (rowCol == sidesOfField.rUpCorner[0]) {
     operationFuncs.if09(allField, rowCol);
@@ -589,7 +588,7 @@ function init() {
 
   for (; shipsMassiv.length < 4;) { // цикл работает пока массив однопалубников не сформирован до 4 элементов
     let rowCol = arrayRandElement(allField); // создается переменная в которой вызывается функция, в которую передается весь главный массив
-    checkInputAndExclude(rowCol);
+    checkInputAndExclude(rowCol); // функция проверяет наш рандомный элемент массива на то к какой части поля он относится. и поняв это, она удаляет такое количество клеток вокруг него на поле, которое соответствует логике, прописанной для каждой определенной клетки поля
     checkMassiv1(allField, rowCol);
     shipsMassiv.push(rowCol);
   }
