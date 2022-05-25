@@ -316,7 +316,7 @@ function init() {
  }
 
  function checkMassiv(arr, x) {
-   for (let i = 0, len = arr.length; i < len; i++) {
+   for (let i = 0; i < arr.length; i++) {
      if (arr[i] == x) {
        return true;
      }
@@ -325,7 +325,7 @@ function init() {
  }
  
  function checkMassiv1(arr, x) {
-   for (let i = 0, len = arr.length; i < len; i++) {
+   for (let i = 0; i < arr.length; i++) {
      if (arr[i] == x) {
        delElMassiv(arr, i);
        return true;
