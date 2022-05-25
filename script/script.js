@@ -217,12 +217,12 @@ function init() {
      checkMassiv1(allField, rowCol);
      shipsMassiv.push(rowCol);
    }
-   shipsMassiv.forEach((item) => {
-      setHit(item);
-   });
    crTwoFloor();
    console.log(shipsMassiv);
    console.log(allField);
+   shipsMassiv.forEach((item) => {
+      setHit(item);
+   });
  }
 
  function createAllField(y) {
@@ -278,12 +278,16 @@ function init() {
    }
  }
 
+ // получает массив, создает рандомный индекс, который не больше чем последний индекс
+ // переданного массива. по этому индексу возращает элемент из переданного массива
  function arrayRandElement(arr) {
    var rand = Math.floor(Math.random() * arr.length);
    return arr[rand];
- } // получает массив, создает рандомный индекс, который не больше чем последний индекс
- // переданного массива. по этому индексу возращает элемент из переданного массива
+ } 
  
+ // функция для определения, к какой части поля относится однопалубник
+ // еще она удаляет вокруг однопалубника пространство шириной в одну клетку
+ // и удаляет и однопалубник и пространство из главного массива
  function checkInputAndExclude(rowCol) {
    if (rowCol == sidesOfField.lUpCorner[0]) {
      operationFuncs.if00(allField, rowCol); // функция, которая удаляет 3 клетки вокруг элемента "00"
@@ -345,19 +349,21 @@ function crTwoFloor() {
        let rowCol = arrayRandElement(allField);
        let ggh = universalFunc(rowCol);
        if (ggh == false) {
-       } else {
+       } 
+       else {
          if (simpleNumbers.indexOf(ggh) === -1) {
            ggh = String(ggh);
          } else {
            ggh = String(ggh);
            ggh = "0" + ggh;
          }
-         object1.twoFloorArr.a.push(rowCol);
-         object1.twoFloorArr.a.push(ggh);
+         console.log(rowCol, ggh);
+         object1.twoFloorArr.a.push(rowCol); // пушу 1 палубу
+         object1.twoFloorArr.a.push(ggh); // пушу 2 палубу
          console.log(object1.twoFloorArr.a);
-         shipsMassiv.push(rowCol);
-         shipsMassiv.push(ggh);
-         checkInput2(allField, sidesOfField, rowCol);
+         shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
+         shipsMassiv.push(ggh); // пушу в общий массив всех палуб
+         checkInput2(allField, sidesOfField, rowCol); //
          checkInput2(allField, sidesOfField, ggh);
          checkMassiv1(allField, rowCol);
          checkMassiv1(allField, ggh);
@@ -368,13 +374,15 @@ function crTwoFloor() {
        let rowCol2 = arrayRandElement(allField);
        let ggh2 = universalFunc(rowCol2);
        if (ggh2 == false) {
-       } else {
+       } 
+       else {
          if (simpleNumbers.indexOf(ggh2) === -1) {
            ggh2 = String(ggh2);
          } else {
            ggh2 = String(ggh2);
            ggh2 = "0" + ggh2;
          }
+         console.log(rowCol2, ggh2);
          object1.twoFloorArr.b.push(rowCol2);
          object1.twoFloorArr.b.push(ggh2);
          shipsMassiv.push(rowCol2);
@@ -398,6 +406,7 @@ function crTwoFloor() {
            ggh3 = String(ggh3);
            ggh3 = "0" + ggh3;
          }
+         console.log(rowCol3, ggh3);
          object1.twoFloorArr.c.push(rowCol3);
          object1.twoFloorArr.c.push(ggh3);
          shipsMassiv.push(rowCol3);
@@ -423,7 +432,8 @@ function crTwoFloor() {
        let uu = secTwo(secondFloorOfTwo, rowCol, 1);
        if (simpleNumbers.indexOf(uu) === -1) {
          uu = String(uu);
-       } else {
+       } 
+       else {
          uu = String(uu);
          uu = "0" + uu;
        }
@@ -616,6 +626,9 @@ function secTwo(arr, x, y) {
   }
 }
 
+// служит для поиска совпадений с массивами уникальных сторон нашего поля
+// если находит, то укорачивает эти массивы
+// одновременно с этим удаляет нашу палубу и клетки свободного пространства вокруг нее из главного массива
 function checkInput2(arr, nextArr, rowCol) {
   if (rowCol == nextArr.lUpCorner[0]) {
     operationFuncs.if00(arr, rowCol);
