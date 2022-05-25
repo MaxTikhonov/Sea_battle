@@ -109,6 +109,7 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.plus1(x));
         checkMassiv1(arr, operationFuncs.plus10(x));
         checkMassiv1(arr, operationFuncs.plus11(x));
+        break;
       }
     }
   },
@@ -118,6 +119,7 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.min1(x));
         checkMassiv1(arr, operationFuncs.plus9(x));
         checkMassiv1(arr, operationFuncs.plus10(x));
+        break;
       }
     }
   },
@@ -127,6 +129,7 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.min10(x));
         checkMassiv1(arr, operationFuncs.min9(x));
         checkMassiv1(arr, operationFuncs.plus1(x));
+        break;
       }
     }
   },
@@ -136,6 +139,7 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.min11(x));
         checkMassiv1(arr, operationFuncs.min10(x));
         checkMassiv1(arr, operationFuncs.min1(x));
+        break;
       }
     }
   },
@@ -147,6 +151,7 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.plus9(x));
         checkMassiv1(arr, operationFuncs.plus10(x));
         checkMassiv1(arr, operationFuncs.plus11(x));
+        break;
       }
     }
   },
@@ -158,6 +163,7 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.min11(x));
         checkMassiv1(arr, operationFuncs.plus9(x));
         checkMassiv1(arr, operationFuncs.plus10(x));
+        break;
       }
     }
   },
@@ -169,6 +175,7 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.min9(x));
         checkMassiv1(arr, operationFuncs.min1(x));
         checkMassiv1(arr, operationFuncs.plus1(x));
+        break;
       }
     }
   },
@@ -180,6 +187,7 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.plus1(x));
         checkMassiv1(arr, operationFuncs.plus10(x));
         checkMassiv1(arr, operationFuncs.plus11(x));
+        break;
       }
     }
   },
@@ -194,6 +202,7 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.plus9(x));
         checkMassiv1(arr, operationFuncs.plus10(x));
         checkMassiv1(arr, operationFuncs.plus11(x));
+        break;
       }
     }
   }
