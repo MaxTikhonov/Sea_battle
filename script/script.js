@@ -101,7 +101,7 @@ let operationFuncs = {
     return x;
   },
   if00: function (arr, x) {
-    for (let i = 0, len = arr.length; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] == x) {
         checkMassiv1(arr, operationFuncs.plus1(x));
         checkMassiv1(arr, operationFuncs.plus10(x));
@@ -110,7 +110,7 @@ let operationFuncs = {
     }
   },
   if09: function (arr, x) {
-    for (let i = 0, len = arr.length; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] == x) {
         checkMassiv1(arr, operationFuncs.min1(x));
         checkMassiv1(arr, operationFuncs.plus9(x));
@@ -119,7 +119,7 @@ let operationFuncs = {
     }
   },
   if90: function (arr, x) {
-    for (let i = 0, len = arr.length; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] == x) {
         checkMassiv1(arr, operationFuncs.min10(x));
         checkMassiv1(arr, operationFuncs.min9(x));
@@ -128,7 +128,7 @@ let operationFuncs = {
     }
   },
   if99: function (arr, x) {
-    for (let i = 0, len = arr.length; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] == x) {
         checkMassiv1(arr, operationFuncs.min11(x));
         checkMassiv1(arr, operationFuncs.min10(x));
@@ -137,7 +137,7 @@ let operationFuncs = {
     }
   },
   ifUpper: function (arr, x) {
-    for (let i = 0, len = arr.length; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] == x) {
         checkMassiv1(arr, operationFuncs.min1(x));
         checkMassiv1(arr, operationFuncs.plus1(x));
@@ -148,7 +148,7 @@ let operationFuncs = {
     }
   },
   ifRight: function (arr, x) {
-    for (let i = 0, len = arr.length; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] == x) {
         checkMassiv1(arr, operationFuncs.min1(x));
         checkMassiv1(arr, operationFuncs.min10(x));
@@ -159,7 +159,7 @@ let operationFuncs = {
     }
   },
   ifDown: function (arr, x) {
-    for (let i = 0, len = arr.length; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] == x) {
         checkMassiv1(arr, operationFuncs.min11(x));
         checkMassiv1(arr, operationFuncs.min10(x));
@@ -170,7 +170,7 @@ let operationFuncs = {
     }
   },
   ifLeft: function (arr, x) {
-    for (let i = 0, len = arr.length; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] == x) {
         checkMassiv1(arr, operationFuncs.min10(x));
         checkMassiv1(arr, operationFuncs.min9(x));
@@ -181,7 +181,7 @@ let operationFuncs = {
     }
   },
   ifAnother: function (arr, x) {
-    for (let i = 0, len = arr.length; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
       if (arr[i] == x) {
         checkMassiv1(arr, operationFuncs.min1(x));
         checkMassiv1(arr, operationFuncs.min10(x));
@@ -217,6 +217,9 @@ function init() {
      checkMassiv1(allField, rowCol);
      shipsMassiv.push(rowCol);
    }
+   shipsMassiv.forEach((item) => {
+      setHit(item);
+   });
    crTwoFloor();
    console.log(shipsMassiv);
    console.log(allField);
@@ -414,8 +417,9 @@ function crTwoFloor() {
  }
 
  function universalFunc(rowCol) {
-   if (rowCol == sidesOfField.lUpCorner[0]) {
-     for (let i = 0; i < 10; i++) {
+   if (rowCol == sidesOfField.lUpCorner[0]) { // случайно создал первую палубу 2-палубного корабля
+      // и проверяю, относится ли она к "00"
+     for (let i = 0; i < 10; i++) { // непонятный цикл. неясно, почему он вызывается 10 раз и где в нем используется i
        let uu = secTwo(secondFloorOfTwo, rowCol, 1);
        if (simpleNumbers.indexOf(uu) === -1) {
          uu = String(uu);
