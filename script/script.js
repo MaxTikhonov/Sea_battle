@@ -354,14 +354,6 @@ function crTwoFloor() {
        if (ggh == false) {
        } 
        else {
-         if (simpleNumbers.indexOf(ggh) === -1) { // зачем эта проверка? иногда число может быть больше 9
-            // в таких случаях сработает else и к числу прибавится строковый "0"
-           ggh = String(ggh);
-         } 
-         else {
-           ggh = String(ggh);
-           ggh = "0" + ggh;
-         }
          console.log(rowCol, ggh);
          object1.twoFloorArr.a.push(rowCol); // пушу 1 палубу
          object1.twoFloorArr.a.push(ggh); // пушу 2 палубу
@@ -381,13 +373,6 @@ function crTwoFloor() {
        if (ggh2 == false) {
        } 
        else {
-         if (simpleNumbers.indexOf(ggh2) === -1) {
-           ggh2 = String(ggh2);
-         } 
-         else {
-           ggh2 = String(ggh2);
-           ggh2 = "0" + ggh2;
-         }
          console.log(rowCol2, ggh2);
          object1.twoFloorArr.b.push(rowCol2);
          object1.twoFloorArr.b.push(ggh2);
@@ -407,12 +392,6 @@ function crTwoFloor() {
        if (ggh3 == false) {
        } 
        else {
-         if (simpleNumbers.indexOf(ggh3) === -1) {
-           ggh3 = String(ggh3);
-         } else {
-           ggh3 = String(ggh3);
-           ggh3 = "0" + ggh3;
-         }
          console.log(rowCol3, ggh3);
          object1.twoFloorArr.c.push(rowCol3);
          object1.twoFloorArr.c.push(ggh3);
@@ -523,14 +502,18 @@ function crTwoFloor() {
      return false;
    } 
    else if (true) {
-     let var1 = 0;
-     for (; var1 == 0;) {
-       let ggh1 = secTwo(secondFloorOfTwo, rowCol, 0);
-       console.log(ggh1);
-       if (checkMassiv(allField, ggh1)) {
-         return ggh1;
+      let uu = secTwo(secondFloorOfTwo, rowCol, 0);
+      if (simpleNumbers.indexOf(uu) === -1) { 
+         uu = String(uu);
+       } 
+       else { // если наша вторая палуба это цифра от 0 до 9, то ей прибавляется строковый "0"
+         uu = String(uu);
+         uu = "0" + uu;
        }
-     }
+       if (checkArr(allField, uu)) {
+         return uu;
+       }
+       return false;
    }
  }
  
@@ -541,7 +524,6 @@ function crTwoFloor() {
      return true;
    }
  }
- 
  
  
  function checkSunkMassiv(mas, x) {
