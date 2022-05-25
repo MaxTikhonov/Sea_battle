@@ -315,27 +315,27 @@ function init() {
    }
  }
 
- function checkMassiv(mas, x) {
-   for (let i = 0, len = mas.length; i < len; i++) {
-     if (mas[i] == x) {
+ function checkMassiv(arr, x) {
+   for (let i = 0, len = arr.length; i < len; i++) {
+     if (arr[i] == x) {
        return true;
      }
    }
    return false;
  }
  
- function checkMassiv1(mas, x) {
-   for (let i = 0, len = mas.length; i < len; i++) {
-     if (mas[i] == x) {
-       delElMassiv(mas, i);
+ function checkMassiv1(arr, x) {
+   for (let i = 0, len = arr.length; i < len; i++) {
+     if (arr[i] == x) {
+       delElMassiv(arr, i);
        return true;
      }
    }
    return false;
  }
 
- function delElMassiv(mas, x) {
-   mas.splice(x, 1);
+ function delElMassiv(arr, x) {
+   arr.splice(x, 1);
  }
 
  /* создает коллекцию двухпалубных кораблей */
