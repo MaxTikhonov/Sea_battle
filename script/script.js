@@ -3,9 +3,17 @@
 let alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 let allField = []; // все игровое поле. будет состоять из 100 строк от "00" до "99"
 let shipsMassiv = []; // массив однопалубников
-let deletedNumbs = [];
+let emptySpacesAroundOneFloorShips = [];
 let sunkShips = [];
 let simpleNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+//  объект, содержащий особенные массивы. дело в том, что когда мы резервируем 
+// определенную клетку поля под корабль. то нам надо удалить все другие клетки вокр
+// уг нее, чтобы она ни дай бог не соприкасалась с другими кораблями. но удалять ну
+// жно определенные клетки и эти клетки разные, в зависимости от того, в каком имен
+// но месте находится зарезервированная нами клетка для корабля. именно поэтому нуж
+// ны эти массивы. они включают в себя набор клеток. и для каждой группы этих клето
+// к количество удаляемых вокруг них клеток будет разниться
 let sidesOfField = {
   upperArray: ["01", "02", "03", "04", "05", "06", "07", "08"],
   rightArray: ["19", "29", "39", "49", "59", "69", "79", "89"],
@@ -15,14 +23,9 @@ let sidesOfField = {
   rUpCorner: ["09"],
   lDownCorner: ["90"],
   rDownCorner: ["99"]
-}; //  объект, содержащий особенные массивы. дело в том, что когда мы резервируем 
-// определенную клетку поля под корабль. то нам надо удалить все другие клетки вокр
-// уг нее, чтобы она ни дай бог не соприкасалась с другими кораблями. но удалять ну
-// жно определенные клетки и эти клетки разные, в зависимости от того, в каком имен
-// но месте находится зарезервированная нами клетка для корабля. именно поэтому нуж
-// ны эти массивы. они включают в себя набор клеток. и для каждой группы этих клето
-// к количество удаляемых вокруг них клеток будет разниться
+};
 
+// объект с методами. в этих методах один параметр - х, который является
 let secondFloorOfTwo = {
   a: function (x) {
     return operationFuncs.min1(x);
@@ -351,9 +354,11 @@ function crTwoFloor() {
        if (ggh == false) {
        } 
        else {
-         if (simpleNumbers.indexOf(ggh) === -1) {
+         if (simpleNumbers.indexOf(ggh) === -1) { // зачем эта проверка? иногда число может быть больше 9
+            // в таких случаях сработает else и к числу прибавится строковый "0"
            ggh = String(ggh);
-         } else {
+         } 
+         else {
            ggh = String(ggh);
            ggh = "0" + ggh;
          }
@@ -378,7 +383,8 @@ function crTwoFloor() {
        else {
          if (simpleNumbers.indexOf(ggh2) === -1) {
            ggh2 = String(ggh2);
-         } else {
+         } 
+         else {
            ggh2 = String(ggh2);
            ggh2 = "0" + ggh2;
          }
@@ -399,7 +405,8 @@ function crTwoFloor() {
        let rowCol3 = arrayRandElement(allField);
        let ggh3 = universalFunc(rowCol3);
        if (ggh3 == false) {
-       } else {
+       } 
+       else {
          if (simpleNumbers.indexOf(ggh3) === -1) {
            ggh3 = String(ggh3);
          } else {
@@ -428,106 +435,91 @@ function crTwoFloor() {
  function universalFunc(rowCol) {
    if (rowCol == sidesOfField.lUpCorner[0]) { // случайно создал первую палубу 2-палубного корабля
       // и проверяю, относится ли она к "00"
-     for (let i = 0; i < 10; i++) { // непонятный цикл. неясно, почему он вызывается 10 раз и где в нем используется i
-       let uu = secTwo(secondFloorOfTwo, rowCol, 1);
-       if (simpleNumbers.indexOf(uu) === -1) {
-         uu = String(uu);
-       } 
-       else {
-         uu = String(uu);
-         uu = "0" + uu;
-       }
-       if (checkArr(allField, uu)) {
-         return uu;
-       }
-     }
+      let uu = secTwo(secondFloorOfTwo, rowCol, 1);
+      if (simpleNumbers.indexOf(uu) === -1) {
+        uu = String(uu);
+      } 
+      else {
+        uu = String(uu);
+        uu = "0" + uu;
+      }
+      if (checkArr(allField, uu)) {
+        return uu;
+      }
      return false;
    }
    else if (rowCol == sidesOfField.rUpCorner[0]) {
-     for (let i = 0; i < 10; i++) {
-       let uu = secTwo(secondFloorOfTwo, rowCol, 2);
-       if (simpleNumbers.indexOf(uu) === -1) {
-         uu = String(uu);
-       } else {
-         uu = String(uu);
-         uu = "0" + uu;
-       }
-       if (checkArr(allField, uu)) {
-         return uu;
-       }
-     }
+      let uu = secTwo(secondFloorOfTwo, rowCol, 2);
+      if (simpleNumbers.indexOf(uu) === -1) {
+        uu = String(uu);
+      } else {
+        uu = String(uu);
+        uu = "0" + uu;
+      }
+      if (checkArr(allField, uu)) {
+        return uu;
+      }
      return false;
    }
    else if (rowCol == sidesOfField.lDownCorner[0]) {
-     for (let i = 0; i < 10; i++) {
-       let uu = secTwo(secondFloorOfTwo, rowCol, 3);
-       if (checkArr(allField, uu)) {
-         return uu;
-       }
-     }
+      let uu = secTwo(secondFloorOfTwo, rowCol, 3);
+      if (checkArr(allField, uu)) {
+        return uu;
+      }
      return false;
    }
    else if (rowCol == sidesOfField.rDownCorner[0]) {
-     for (let i = 0; i < 10; i++) {
-       let uu = secTwo(secondFloorOfTwo, rowCol, 4);
-       if (checkArr(allField, uu)) {
-         return uu;
-       }
-     }
+      let uu = secTwo(secondFloorOfTwo, rowCol, 4);
+      if (checkArr(allField, uu)) {
+        return uu;
+      }
      return false;
    }
    else if (checkMassiv(sidesOfField.upperArray, rowCol)) {
-     for (let i = 0; i < 10; i++) {
-       let uu = secTwo(secondFloorOfTwo, rowCol, 5);
-       if (simpleNumbers.indexOf(uu) === -1) {
-         uu = String(uu);
-       } else {
-         uu = String(uu);
-         uu = "0" + uu;
-       }
-       if (checkArr(allField, uu)) {
-         return uu;
-       }
-     }
+      let uu = secTwo(secondFloorOfTwo, rowCol, 5);
+      if (simpleNumbers.indexOf(uu) === -1) {
+        uu = String(uu);
+      } else {
+        uu = String(uu);
+        uu = "0" + uu;
+      }
+      if (checkArr(allField, uu)) {
+        return uu;
+      }
      return false;
    }
    else if (checkMassiv(sidesOfField.rightArray, rowCol)) {
-     for (let i = 0; i < 10; i++) {
-       let uu = secTwo(secondFloorOfTwo, rowCol, 6);
-       if (simpleNumbers.indexOf(uu) === -1) {
-         uu = String(uu);
-       } else {
-         uu = String(uu);
-         uu = "0" + uu;
-       }
-       if (checkArr(allField, uu)) {
-         return uu;
-       }
-     }
+      let uu = secTwo(secondFloorOfTwo, rowCol, 6);
+      if (simpleNumbers.indexOf(uu) === -1) {
+        uu = String(uu);
+      } else {
+        uu = String(uu);
+        uu = "0" + uu;
+      }
+      if (checkArr(allField, uu)) {
+        return uu;
+      }
      return false;
    }
    else if (checkMassiv(sidesOfField.downArray, rowCol)) {
-     for (let i = 0; i < 10; i++) {
-       let uu = secTwo(secondFloorOfTwo, rowCol, 7);
-       if (checkArr(allField, uu)) {
-         return uu;
-       }
-     }
+      let uu = secTwo(secondFloorOfTwo, rowCol, 7);
+      if (checkArr(allField, uu)) {
+        return uu;
+      }
      return false;
    }
    else if (checkMassiv(sidesOfField.leftArray, rowCol)) {
-     for (let i = 0; i < 10; i++) {
-       let uu = secTwo(secondFloorOfTwo, rowCol, 8);
-       if (simpleNumbers.indexOf(uu) === -1) {
-         uu = String(uu);
-       } else {
-         uu = String(uu);
-         uu = "0" + uu;
-       }
-       if (checkArr(allField, uu)) {
-         return uu;
-       }
-     }
+      let uu = secTwo(secondFloorOfTwo, rowCol, 8);
+      if (simpleNumbers.indexOf(uu) === -1) { 
+        uu = String(uu);
+      } 
+      else { // если наша вторая палуба это цифра от 0 до 9, то ей прибавляется строковый "0"
+        uu = String(uu);
+        uu = "0" + uu;
+      }
+      if (checkArr(allField, uu)) {
+        return uu;
+      }
      return false;
    } 
    else if (true) {
@@ -561,6 +553,13 @@ function crTwoFloor() {
    return false;
  }
 
+ // довольно интересная функция, которой передается объект secondFloorOfTwo
+ // объект secondFloorOfTwo содержит 4 метода, которые по сути являются 
+ // единственными 4 путями как можно продолжить 1-палубный корабль до 2-палубного
+ // для этого есть только 4 пути на нашем поле. уйти вверх, вправо, вниз или влево
+ // но особенность этой функции не только в этом, она еще и реализует рандом между этими путями
+ // то есть мало того, что здесь прописано куда только можем мы уйти при совпадении
+ // rowcol с уникальными сторонами нашего поля, так еще и происходит случайный выбор между этими направлениями
 function secTwo(arr, x, y) {
    let g, f, r, h;
   if (y == 0) {
