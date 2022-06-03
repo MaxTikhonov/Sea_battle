@@ -654,7 +654,6 @@ function checkInput2(arr, nextArr, rowCol) {
     checkMassiv1(nextArr.leftArray, rowCol);
   } else if (true) {
     operationFuncs.ifAnother(arr, rowCol);
-    checkMassiv1(nextArr.leftArray, rowCol);
   }
 }
 
