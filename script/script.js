@@ -401,6 +401,11 @@ function checkInputAndExclude(rowCol) {
   }
 }
 
+// функция первым дело делает то, что невозможно просто так взять и отнять определенное
+//  количество клеток от первой палубы, чтобы построить вторую.
+// нужно учитывать расположение первой палубы в определенных частях поля
+// чтобы знать куда пойти дальше
+
 function universalFunc(rowCol) {
   if (rowCol == sidesOfField.lUpCorner[0]) {
     for (let i = 0; i < 10; i++) {
@@ -589,12 +594,15 @@ function init() {
   for (; shipsMassiv.length < 4;) { // цикл работает пока массив однопалубников не сформирован до 4 элементов
     let rowCol = arrayRandElement(allField); // создается переменная в которой вызывается функция, в которую передается весь главный массив
     checkInputAndExclude(rowCol); // функция проверяет наш рандомный элемент массива на то к какой части поля он относится. и поняв это, она удаляет такое количество клеток вокруг него на поле, которое соответствует логике, прописанной для каждой определенной клетки поля
-    checkMassiv1(allField, rowCol);
-    shipsMassiv.push(rowCol);
+    checkMassiv1(allField, rowCol); // наконец я удаляю созданный однопалубный из главного массива
+    shipsMassiv.push(rowCol); // и добавляю его в массив кораблей
   }
   crTwoFloor();
   console.log(shipsMassiv);
   console.log(allField);
+  shipsMassiv.forEach((item) => {
+    setHit(item);
+  });
 }
 
 
