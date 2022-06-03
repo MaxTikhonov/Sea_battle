@@ -187,69 +187,6 @@ let operationFuncs = {
   }
 };
 
-function secTwo(arr, x, y) {
-  if (y == 0) {
-    let array = [
-      g = arr.a(x),
-      f = arr.b(x),
-      r = arr.c(x),
-      h = arr.d(x)
-    ];
-    return arrayRandElement(array);
-  } else if (y == 1) {
-    let array = [
-      r = arr.c(x),
-      h = arr.d(x)
-    ];
-    return arrayRandElement(array);
-  } else if (y == 2) {
-    let array = [
-      g = arr.a(x),
-      h = arr.d(x)
-    ];
-    return arrayRandElement(array);
-  } else if (y == 3) {
-    let array = [
-      f = arr.b(x),
-      r = arr.c(x)
-    ];
-    return arrayRandElement(array);
-  } else if (y == 4) {
-    let array = [
-      g = arr.a(x),
-      f = arr.b(x)
-    ];
-    return arrayRandElement(array);
-  } else if (y == 5) {
-    let array = [
-      g = arr.a(x),
-      r = arr.c(x),
-      h = arr.d(x)
-    ];
-    return arrayRandElement(array);
-  } else if (y == 6) {
-    let array = [
-      g = arr.a(x),
-      f = arr.b(x),
-      h = arr.d(x)
-    ];
-    return arrayRandElement(array);
-  } else if (y == 7) {
-    let array = [
-      g = arr.a(x),
-      f = arr.b(x),
-      r = arr.c(x)
-    ];
-    return arrayRandElement(array);
-  } else if (y == 8) {
-    let array = [
-      f = arr.b(x),
-      r = arr.c(x),
-      h = arr.d(x)
-    ];
-    return arrayRandElement(array);
-  }
-}
 
 /* создает коллекцию двухпалубных кораблей */
 function crTwoFloor() {
@@ -519,6 +456,71 @@ function universalFunc(rowCol) {
     }
   }
 }
+
+function secTwo(arr, x, y) {
+  if (y == 0) {
+    let array = [
+      g = arr.a(x),
+      f = arr.b(x),
+      r = arr.c(x),
+      h = arr.d(x)
+    ];
+    return arrayRandElement(array);
+  } else if (y == 1) {
+    let array = [
+      r = arr.c(x),
+      h = arr.d(x)
+    ];
+    return arrayRandElement(array);
+  } else if (y == 2) {
+    let array = [
+      g = arr.a(x),
+      h = arr.d(x)
+    ];
+    return arrayRandElement(array);
+  } else if (y == 3) {
+    let array = [
+      f = arr.b(x),
+      r = arr.c(x)
+    ];
+    return arrayRandElement(array);
+  } else if (y == 4) {
+    let array = [
+      g = arr.a(x),
+      f = arr.b(x)
+    ];
+    return arrayRandElement(array);
+  } else if (y == 5) {
+    let array = [
+      g = arr.a(x),
+      r = arr.c(x),
+      h = arr.d(x)
+    ];
+    return arrayRandElement(array);
+  } else if (y == 6) {
+    let array = [
+      g = arr.a(x),
+      f = arr.b(x),
+      h = arr.d(x)
+    ];
+    return arrayRandElement(array);
+  } else if (y == 7) {
+    let array = [
+      g = arr.a(x),
+      f = arr.b(x),
+      r = arr.c(x)
+    ];
+    return arrayRandElement(array);
+  } else if (y == 8) {
+    let array = [
+      f = arr.b(x),
+      r = arr.c(x),
+      h = arr.d(x)
+    ];
+    return arrayRandElement(array);
+  }
+}
+
 function checkArr(arr, x) {
   if (arr.indexOf(x) === -1) {
     return false;
