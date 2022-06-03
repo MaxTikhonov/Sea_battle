@@ -26,7 +26,8 @@ let sidesOfField = {
   rDownCorner: ["99"]
 };
 
-// объект с методами. в этих методах один параметр - х, который является
+// объект с методами. есть только 4 способа продолжить однопалубный и вот они
+// либо удаляем 1, 10 либо прибавляем 1, 10
 let secondFloorOfTwo = {
   a: function (x) {
     return operationFuncs.min1(x);
@@ -422,11 +423,17 @@ function crTwoFloor() {
    }
  }
 
- function universalFunc(rowCol) {
+//  функция берет первую палубу и смотрит к какой части поля она относится
+//  от этого зависит, куда мы пойдем, чтобы строить вторую палубу
+
+ function universalFunc(rowCol) { 
    if (rowCol == sidesOfField.lUpCorner[0]) { // случайно создал первую палубу 2-палубного корабля
       // и проверяю, относится ли она к "00"
-      let uu = secTwo(secondFloorOfTwo, rowCol, 1);
-      if (simpleNumbers.indexOf(uu) === -1) {
+      let uu = secTwo(secondFloorOfTwo, rowCol, 1); //затем пытаюсь создать вторую палубу
+      // при помощи цифры я указываю какой набор мат вычислений буду производить
+      // в этой же функции я совершаю рандом для второй палубы
+      if (simpleNumbers.indexOf(uu) === -1) { //здесь проверяю, односимвольное ли число или нет
+         // если не односимвольное, то просто преобразую в строку
         uu = String(uu);
       } 
       else {
