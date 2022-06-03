@@ -111,7 +111,6 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.plus1(x));
         checkMassiv1(arr, operationFuncs.plus10(x));
         checkMassiv1(arr, operationFuncs.plus11(x));
-   
         break;
       }
     }
