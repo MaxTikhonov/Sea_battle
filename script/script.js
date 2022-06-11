@@ -242,16 +242,17 @@ function init() {
    console.log(shipsMassiv);
    console.log(allField);
    console.log(allField2);
-   test();
-   const emptySpacesAroundShips = allField2.filter(function(item) {
-      if(allField.includes(item) == false) {
-         return item;
-      }
-   });
-      console.log(emptySpacesAroundShips);
-      emptySpacesAroundShips.forEach((item) => {
-         setMiss(item);
-      });
+   crThreeFloor();
+   // const emptySpacesAroundShips = allField2.filter(function(item) {
+   //    if(allField.includes(item) == false) {
+   //       return item;
+   //    }
+   // });
+   //    console.log(emptySpacesAroundShips);
+   //    emptySpacesAroundShips.forEach((item) => {
+   //       setMiss(item);
+   //    });
+   console.log(shipsMassiv);
    shipsMassiv.forEach((item) => {
       setHit(item);
    });
@@ -441,6 +442,88 @@ function crTwoFloor() {
  
      if (object1.twoFloorArr.a.length == 2 && (object1.twoFloorArr.b.length + object1.twoFloorArr.c.length == 4)) {
        object1.twoFloorVar = true;
+     }
+   }
+ }
+
+ function crThreeFloor() {
+   for (; object1.threeFloorVar == false;) {
+     for (; object1.threeFloorArr.a.length !== 3;) {
+       let rowCol = arrayRandElement(allField);
+       let ggh = universalFunc(rowCol);
+       let ggh2 = universalFunc(ggh);
+       console.log(ggh2);
+       if (ggh == false) {
+         console.log('ggh = false');
+         continue;
+       } 
+       else if(ggh2 == false) {
+         console.log('ggh2 = false');
+         continue;
+       }
+       else if(ggh == false || ggh === ggh2) {
+         console.log('both wrong');
+         continue;
+       }
+       else {
+         console.log(rowCol, ggh);
+         object1.threeFloorArr.a.push(rowCol); // пушу 1 палубу
+         object1.threeFloorArr.a.push(ggh); // пушу 2 палубу
+         object1.threeFloorArr.a.push(ggh2); // пушу 3 палубу
+         console.log(object1.threeFloorArr.a);
+         checkInput2(allField, sidesOfField, rowCol);
+         allField.push(ggh);
+         allField.push(ggh2);
+         shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
+         shipsMassiv.push(ggh); // пушу в общий массив всех палуб
+         shipsMassiv.push(ggh2); // пушу в общий массив всех палуб
+         checkInput2(allField, sidesOfField, ggh);
+         console.log(allField);
+         checkInput2(allField, sidesOfField, ggh2);
+         checkMassiv1(allField, rowCol);
+         checkMassiv1(allField, ggh);
+         console.log(allField);
+       }
+     }
+ 
+     for (; object1.threeFloorArr.b.length !== 3;) {
+      let rowCol = arrayRandElement(allField);
+      let ggh = universalFunc(rowCol);
+      let ggh2 = universalFunc(ggh);
+      if (ggh == false) {
+         console.log('ggh = false');
+         continue;
+       } 
+       else if(ggh2 == false) {
+         console.log('ggh2 = false');
+         continue;
+       }
+       else if(ggh == false || ggh === ggh2) {
+         console.log('both wrong');
+         continue;
+       }
+      else {
+        console.log(rowCol, ggh);
+        object1.threeFloorArr.b.push(rowCol); // пушу 1 палубу
+        object1.threeFloorArr.b.push(ggh); // пушу 2 палубу
+        object1.threeFloorArr.b.push(ggh2); // пушу 3 палубу
+        console.log(object1.threeFloorArr.b);
+        checkInput2(allField, sidesOfField, rowCol);
+        allField.push(ggh);
+        allField.push(ggh2);
+        shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
+        shipsMassiv.push(ggh); // пушу в общий массив всех палуб
+        shipsMassiv.push(ggh2); // пушу в общий массив всех палуб
+        checkInput2(allField, sidesOfField, ggh);
+        console.log(allField);
+        checkInput2(allField, sidesOfField, ggh2);
+        checkMassiv1(allField, rowCol);
+        checkMassiv1(allField, ggh);
+        console.log(allField);
+      }
+    }
+     if (object1.threeFloorArr.a.length == 3 && object1.threeFloorArr.b.length == 3) {
+       object1.threeFloorVar = true;
      }
    }
  }
@@ -686,55 +769,6 @@ function test() {
        console.log(ee, tt);
 
 }
-
-// function crThreeFloor() {
-//    for (; object1.threeFloorVar == false;) {
-//      for (; object1.threeFloorArr.a.length !== 3;) {
-//        let rowCol = arrayRandElement(allField);
-//        let ggh = universalFunc(rowCol);
-//        if (ggh == false) {
-//        } 
-//        else {
-//          console.log(rowCol, ggh);
-//          object1.threeFloorArr.a.push(rowCol); // пушу 1 палубу
-//          object1.threeFloorArr.a.push(ggh); // пушу 2 палубу
-//          console.log(object1.threeFloorArr.a);
-//          shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
-//          shipsMassiv.push(ggh); // пушу в общий массив всех палуб
-//          checkInput2(allField, sidesOfField, rowCol);
-//          allField.push(ggh);
-//          checkInput2(allField, sidesOfField, ggh);
-//          console.log(allField);
-//          checkMassiv1(allField, rowCol);
-//          checkMassiv1(allField, ggh);
-//          console.log(allField);
-//        }
-//      }
- 
-//      for (; object1.threeFloorArr.b.length !== 3;) {
-//        let rowCol2 = arrayRandElement(allField);
-//        let ggh2 = universalFunc(rowCol2);
-//        if (ggh2 == false) {
-//        } 
-//        else {
-//          console.log(rowCol2, ggh2);
-//          object1.threeFloorArr.b.push(rowCol2);
-//          object1.threeFloorArr.b.push(ggh2);
-//          shipsMassiv.push(rowCol2);
-//          shipsMassiv.push(ggh2);
-//          console.log(object1.threeFloorArr.b);
-//          checkInput2(allField, sidesOfField, rowCol2);
-//          allField.push(ggh2);
-//          checkInput2(allField, sidesOfField, ggh2);
-//          checkMassiv1(allField, rowCol2);
-//          checkMassiv1(allField, ggh2);
-//        }
-//      }
-//      if (object1.threeFloorArr.a.length == 3 && object1.threeFloorArr.b.length == 3) {
-//        object1.threeFloorVar = true;
-//      }
-//    }
-//  }
 
 function setHit(x) {
   let a = document.getElementById(x);
