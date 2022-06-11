@@ -14,6 +14,7 @@ let simpleNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 // но месте находится зарезервированная нами клетка для корабля. именно поэтому нуж
 // ны эти массивы. они включают в себя набор клеток. и для каждой группы этих клето
 // к количество удаляемых вокруг них клеток будет разниться
+
 let sidesOfField = {
   upperArray: ["01", "02", "03", "04", "05", "06", "07", "08"],
   rightArray: ["19", "29", "39", "49", "59", "69", "79", "89"],
@@ -25,7 +26,8 @@ let sidesOfField = {
   rDownCorner: ["99"]
 };
 
-// объект с методами. в этих методах один параметр - х, который является
+// объект с методами. есть только 4 способа продолжить однопалубный и вот они
+// либо удаляем 1, 10 либо прибавляем 1, 10
 let secondFloorOfTwo = {
   a: function (x) {
     return operationFuncs.min1(x);
@@ -109,7 +111,6 @@ let operationFuncs = {
         checkMassiv1(arr, operationFuncs.plus1(x));
         checkMassiv1(arr, operationFuncs.plus10(x));
         checkMassiv1(arr, operationFuncs.plus11(x));
-   
         break;
       }
     }
@@ -370,10 +371,13 @@ function crTwoFloor() {
          console.log(object1.twoFloorArr.a);
          shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
          shipsMassiv.push(ggh); // пушу в общий массив всех палуб
-         checkInput2(allField, sidesOfField, rowCol); //
+         checkInput2(allField, sidesOfField, rowCol);
+         allField.push(ggh);
          checkInput2(allField, sidesOfField, ggh);
+         console.log(allField);
          checkMassiv1(allField, rowCol);
          checkMassiv1(allField, ggh);
+         console.log(allField);
        }
      }
  
@@ -390,6 +394,7 @@ function crTwoFloor() {
          shipsMassiv.push(ggh2);
          console.log(object1.twoFloorArr.b);
          checkInput2(allField, sidesOfField, rowCol2);
+         allField.push(ggh2);
          checkInput2(allField, sidesOfField, ggh2);
          checkMassiv1(allField, rowCol2);
          checkMassiv1(allField, ggh2);
@@ -409,6 +414,7 @@ function crTwoFloor() {
          shipsMassiv.push(ggh3);
          console.log(object1.twoFloorArr.c);
          checkInput2(allField, sidesOfField, rowCol3);
+         allField.push(ggh3);
          checkInput2(allField, sidesOfField, ggh3);
          checkMassiv1(allField, rowCol3);
          checkMassiv1(allField, ggh3);
@@ -421,11 +427,17 @@ function crTwoFloor() {
    }
  }
 
- function universalFunc(rowCol) {
+//  функция берет первую палубу и смотрит к какой части поля она относится
+//  от этого зависит, куда мы пойдем, чтобы строить вторую палубу
+
+ function universalFunc(rowCol) { 
    if (rowCol == sidesOfField.lUpCorner[0]) { // случайно создал первую палубу 2-палубного корабля
       // и проверяю, относится ли она к "00"
-      let uu = secTwo(secondFloorOfTwo, rowCol, 1);
-      if (simpleNumbers.indexOf(uu) === -1) {
+      let uu = secTwo(secondFloorOfTwo, rowCol, 1); //затем пытаюсь создать вторую палубу
+      // при помощи цифры я указываю какой набор мат вычислений буду производить
+      // в этой же функции я совершаю рандом для второй палубы
+      if (simpleNumbers.indexOf(uu) === -1) { //здесь проверяю, односимвольное ли число или нет
+         // если не односимвольное, то просто преобразую в строку
         uu = String(uu);
       } 
       else {
@@ -647,7 +659,6 @@ function checkInput2(arr, nextArr, rowCol) {
     checkMassiv1(nextArr.leftArray, rowCol);
   } else if (true) {
     operationFuncs.ifAnother(arr, rowCol);
-    checkMassiv1(nextArr.leftArray, rowCol);
   }
 }
 
