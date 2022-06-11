@@ -371,10 +371,13 @@ function crTwoFloor() {
          console.log(object1.twoFloorArr.a);
          shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
          shipsMassiv.push(ggh); // пушу в общий массив всех палуб
-         checkInput2(allField, sidesOfField, rowCol); //
+         checkInput2(allField, sidesOfField, rowCol);
+         allField.push(ggh);
          checkInput2(allField, sidesOfField, ggh);
+         console.log(allField);
          checkMassiv1(allField, rowCol);
          checkMassiv1(allField, ggh);
+         console.log(allField);
        }
      }
  
@@ -391,6 +394,7 @@ function crTwoFloor() {
          shipsMassiv.push(ggh2);
          console.log(object1.twoFloorArr.b);
          checkInput2(allField, sidesOfField, rowCol2);
+         allField.push(ggh2);
          checkInput2(allField, sidesOfField, ggh2);
          checkMassiv1(allField, rowCol2);
          checkMassiv1(allField, ggh2);
@@ -410,6 +414,7 @@ function crTwoFloor() {
          shipsMassiv.push(ggh3);
          console.log(object1.twoFloorArr.c);
          checkInput2(allField, sidesOfField, rowCol3);
+         allField.push(ggh3);
          checkInput2(allField, sidesOfField, ggh3);
          checkMassiv1(allField, rowCol3);
          checkMassiv1(allField, ggh3);
