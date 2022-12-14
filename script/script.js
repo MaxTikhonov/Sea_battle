@@ -1,5 +1,4 @@
 //arrayRandElement(allField)
-
 let alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 let allField = []; // все игровое поле. будет состоять из 100 строк от "00" до "99"
 let allField2 = [];
@@ -26,7 +25,7 @@ let sidesOfField = {
   rDownCorner: ["99"]
 };
 
-// объект с методами. есть только 4 способа продолжить однопалубный и вот они
+// объект с методами. есть только 4 способа продолжить однопалубный и вот они:
 // либо удаляем 1, 10 либо прибавляем 1, 10
 let secondFloorOfTwo = {
   a: function (x) {
@@ -54,8 +53,8 @@ let object1 = {
   },
   threeFloorVar: false,
   threeFloorArr: {
-   a: [],
-   b: []
+    a: [],
+    b: []
   },
   messageArea: function () {
     let var1 = document.getElementById("messageArea");
@@ -216,301 +215,265 @@ let operationFuncs = {
 };
 
 function init() {
-   createAllField(allField); // создаются строки от "00" до "09"
-   createAllField1(allField); // создаются остальные числа в виде строк от "10" до "99"
-   allField.forEach((item) => allField2.push(item));
-   console.log(allField);
-   console.log(allField2);    
-   let fireButton = document.getElementById("fireButton"); // получается кнопка на которую жмет пользователь после  
- // ввода координат выстрела
-   fireButton.onclick = handleFireButton; // вешается событие клика на эту кнопку, которое вешает эту функцию, что 
- // сработает при клике
-   let guessInput = document.getElementById("guessInput"); // получается поле ввода, куда пользователь вводит 
- // координаты выстрела
-   guessInput.onkeydown = handleKeyPress; // вешается обработчик события нажатия клавиш, который запускает эту функцию
- 
-   for (; shipsMassiv.length < 4;) { // цикл работает пока массив однопалубников не сформирован до 4 элементов
-     let rowCol = arrayRandElement(allField); // создается переменная в которой вызывается функция, в 
+  createAllField(allField); // создаются строки от "00" до "09"
+  createAllField1(allField); // создаются остальные числа в виде строк от "10" до "99"
+  // allField.forEach((item) => allField2.push(item));
+  console.log(allField);
+  console.log(allField2);
+  document.getElementById("fireButton").onclick = handleFireButton; // получается кнопка на которую жмет пользователь 
+  // после ввода координат выстрела, и на нее вешается 
+  // событие клика, которое вызывает функцию handleFireButton
+  document.getElementById("guessInput").onkeydown = handleKeyPress; // получается поле ввода, куда пользователь вводит 
+  // координаты выстрела и на него вешается функция handleKeyPress
+
+  for (; shipsMassiv.length < 4;) { // цикл работает пока массив однопалубников не сформирован до 4 элементов
+    let rowCol = arrayRandElement(allField); // создается переменная в которой вызывается функция, в 
     // которую передается весь главный массив
-     checkInputAndExclude(rowCol); // функция проверяет наш рандомный элемент массива на то к какой части
-    // поля он относится. и поняв это, она удаляет такое количество клеток вокруг него на
-    // поле, которое соответствует логике, прописанной для каждой определенной клетки поля
-     checkMassiv1(allField, rowCol);
-     shipsMassiv.push(rowCol);
-   }
-   crTwoFloor();
-   console.log(shipsMassiv);
-   console.log(allField);
-   console.log(allField2);
-   crThreeFloor();
-   // const emptySpacesAroundShips = allField2.filter(function(item) {
-   //    if(allField.includes(item) == false) {
-   //       return item;
-   //    }
-   // });
-   //    console.log(emptySpacesAroundShips);
-   //    emptySpacesAroundShips.forEach((item) => {
-   //       setMiss(item);
-   //    });
-   console.log(shipsMassiv);
-   shipsMassiv.forEach((item) => {
-      setHit(item);
-   });
- }
+    checkInputAndExclude(rowCol); // функция проверяет наш рандомный элемент массива на то к какой части
+    // поля он относится. и поняв это, она удаляет вокруг него такое количество клеток на поле, 
+    // которое соответствует логике, прописанной для каждой определенной клетки поля
+    checkMassiv1(allField, rowCol);
+    shipsMassiv.push(rowCol);
+  }
 
- function createAllField(y) {
-   for (let i = 0, len = 0; len < 10; len++) {
-     i = String(i);
-     len = String(len);
-     let lenPlusI = i + len;
-     y.push(lenPlusI);
-   }
- }
+  console.log(shipsMassiv);
+  console.log(allField);
+  console.log(allField2);
+  crTwoFloor();
+  crThreeFloor();
+  // const emptySpacesAroundShips = allField2.filter(function(item) {
+  //    if(allField.includes(item) == false) {
+  //       return item;
+  //    }
+  // });
+  //    console.log(emptySpacesAroundShips);
+  //    emptySpacesAroundShips.forEach((item) => {
+  //       setMiss(item);
+  //    });
+  console.log(shipsMassiv);
+  shipsMassiv.forEach((item) => {
+    setHit(item);
+  });
+}
 
- function createAllField1(y) {
-   for (let len = 10, x = 0; x < 90; x++, len++) {
-     let lenPlusI1 = String(len);
-     y.push(lenPlusI1);
-   }
- }
+function createAllField(y) {
+  for (let i = 0, len = 0; len < 10; len++) {
+    i = String(i);
+    len = String(len);
+    let lenPlusI = i + len;
+    y.push(lenPlusI);
+  }
+}
 
- function handleFireButton() {
-   let guessInput = document.getElementById("guessInput");
-   let guess = guessInput.value;
-   if (guess === null || guess.length !== 2) {
-   } else {
-     let firstSign = guess.charAt(0);
-     let firstNumber = alphabet.indexOf(firstSign);
-     let secondNumber = guess.charAt(1);
-     if (isNaN(firstNumber) || isNaN(secondNumber)) {
-     } else if (firstNumber < 0 || firstNumber >= 10 ||
-       secondNumber < 0 || secondNumber >= 10) {
-     } else {
-       let trueNumber = firstNumber + secondNumber;
-       if (checkMassiv1(shipsMassiv, trueNumber)) {
-         setHit(trueNumber);
-         hits = hits + 1;
-         sunkShips.push(trueNumber);
-       } else if (checkSunkMassiv(sunkShips, trueNumber)) {
-       } else {
-         setMiss(trueNumber);
-       }
-     }
-   }
-   if (hits == 20) {
-     let i = document.getElementById("messageArea");
-     i.innerHTML = "Поздравляю, вы потопили вcе корабли!";
-   }
- }
+function createAllField1(y) {
+  for (let len = 10, x = 0; x < 90; x++, len++) {
+    let lenPlusI1 = String(len);
+    y.push(lenPlusI1);
+  }
+}
 
- function handleKeyPress(e) {
-   let fireButton = document.getElementById("fireButton");
-   if (e.keyCode === 13) {
-     fireButton.click();
-     return false;
-   }
- }
+function handleFireButton() {
+  let guessInput = document.getElementById("guessInput");
+  let guess = guessInput.value;
+  if (guess === null || guess.length !== 2) {
+  } else {
+    let firstSign = guess.charAt(0);
+    let firstNumber = alphabet.indexOf(firstSign);
+    let secondNumber = guess.charAt(1);
+    if (isNaN(firstNumber) || isNaN(secondNumber)) {
+    } else if (firstNumber < 0 || firstNumber >= 10 ||
+      secondNumber < 0 || secondNumber >= 10) {
+    } else {
+      let trueNumber = firstNumber + secondNumber;
+      if (checkMassiv1(shipsMassiv, trueNumber)) {
+        setHit(trueNumber);
+        hits = hits + 1;
+        sunkShips.push(trueNumber);
+      } else if (checkSunkMassiv(sunkShips, trueNumber)) {
+      } else {
+        setMiss(trueNumber);
+      }
+    }
+  }
+  if (hits == 20) {
+    let i = document.getElementById("messageArea");
+    i.innerHTML = "Поздравляю, вы потопили вcе корабли!";
+  }
+}
 
- // получает массив, создает рандомный индекс, который не больше чем последний индекс
- // переданного массива. по этому индексу возращает элемент из переданного массива
- function arrayRandElement(arr) {
-   var rand = Math.floor(Math.random() * arr.length);
-   return arr[rand];
- } 
- 
- // функция для определения, к какой части поля относится однопалубник
- // еще она удаляет вокруг однопалубника пространство шириной в одну клетку
- // и удаляет и однопалубник и пространство из главного массива
- function checkInputAndExclude(rowCol) {
-   if (rowCol == sidesOfField.lUpCorner[0]) {
-     operationFuncs.if00(allField, rowCol); // функция, которая удаляет 3 клетки вокруг элемента "00"
-     delElMassiv(sidesOfField.lUpCorner, 0);
-   } else if (rowCol == sidesOfField.rUpCorner[0]) {
-     operationFuncs.if09(allField, rowCol);
-     delElMassiv(sidesOfField.rUpCorner, 0);
-   } else if (rowCol == sidesOfField.lDownCorner[0]) {
-     operationFuncs.if90(allField, rowCol);
-     delElMassiv(sidesOfField.lDownCorner, 0);
-   } else if (rowCol == sidesOfField.rDownCorner[0]) {
-     operationFuncs.if99(allField, rowCol);
-     delElMassiv(sidesOfField.rDownCorner, 0);
-   } else if (checkMassiv(sidesOfField.upperArray, rowCol)) {
-     operationFuncs.ifUpper(allField, rowCol);
-     checkMassiv1(sidesOfField.upperArray, rowCol);
-   } else if (checkMassiv(sidesOfField.rightArray, rowCol)) {
-     operationFuncs.ifRight(allField, rowCol);
-     checkMassiv1(sidesOfField.rightArray, rowCol);
-   } else if (checkMassiv(sidesOfField.downArray, rowCol)) {
-     operationFuncs.ifDown(allField, rowCol);
-     checkMassiv1(sidesOfField.downArray, rowCol);
-   } else if (checkMassiv(sidesOfField.leftArray, rowCol)) {
-     operationFuncs.ifLeft(allField, rowCol);
-     checkMassiv1(sidesOfField.leftArray, rowCol);
-   } else {
-     operationFuncs.ifAnother(allField, rowCol);
-     checkMassiv1(sidesOfField.leftArray, rowCol);
-   }
- }
+function handleKeyPress(e) {
+  let fireButton = document.getElementById("fireButton");
+  if (e.keyCode === 13) {
+    fireButton.click();
+    return false;
+  }
+}
 
- function checkMassiv(arr, x) {
-   for (let i = 0; i < arr.length; i++) {
-     if (arr[i] == x) {
-       return true;
-     }
-   }
-   return false;
- }
- 
- function checkMassiv1(arr, x) {
-   for (let i = 0; i < arr.length; i++) {
-     if (arr[i] == x) {
-       delElMassiv(arr, i);
-       return true;
-     }
-   }
-   return false;
- }
+// получает массив, создает рандомный индекс, который не больше чем последний индекс
+// переданного массива. по этому индексу возращает элемент из переданного массива
+function arrayRandElement(arr) {
+  console.log('длина массива: ' + arr.length);
+  let rand = Math.floor(Math.random() * arr.length);
+  return arr[rand];
+}
 
- function delElMassiv(arr, x) {
-   arr.splice(x, 1);
- }
+// функция для определения, к какой части поля относится однопалубник
+// еще она удаляет вокруг однопалубника пространство шириной в одну клетку
+// и удаляет и однопалубник и пространство из главного массива
+function checkInputAndExclude(rowCol) {
+  if (rowCol == sidesOfField.lUpCorner[0]) {
+    operationFuncs.if00(allField, rowCol); // функция, которая удаляет 3 клетки вокруг элемента "00"
+    delElArray(sidesOfField.lUpCorner, 0);
+  } else if (rowCol == sidesOfField.rUpCorner[0]) {
+    operationFuncs.if09(allField, rowCol);
+    delElArray(sidesOfField.rUpCorner, 0);
+  } else if (rowCol == sidesOfField.lDownCorner[0]) {
+    operationFuncs.if90(allField, rowCol);
+    delElArray(sidesOfField.lDownCorner, 0);
+  } else if (rowCol == sidesOfField.rDownCorner[0]) {
+    operationFuncs.if99(allField, rowCol);
+    delElArray(sidesOfField.rDownCorner, 0);
+  } else if (checkMassiv(sidesOfField.upperArray, rowCol)) {
+    operationFuncs.ifUpper(allField, rowCol);
+    checkMassiv1(sidesOfField.upperArray, rowCol);
+  } else if (checkMassiv(sidesOfField.rightArray, rowCol)) {
+    operationFuncs.ifRight(allField, rowCol);
+    checkMassiv1(sidesOfField.rightArray, rowCol);
+  } else if (checkMassiv(sidesOfField.downArray, rowCol)) {
+    operationFuncs.ifDown(allField, rowCol);
+    checkMassiv1(sidesOfField.downArray, rowCol);
+  } else if (checkMassiv(sidesOfField.leftArray, rowCol)) {
+    operationFuncs.ifLeft(allField, rowCol);
+    checkMassiv1(sidesOfField.leftArray, rowCol);
+  } else {
+    operationFuncs.ifAnother(allField, rowCol);
+  }
+}
 
- /* создает коллекцию двухпалубных кораблей */
+//функция для проверки массива на наличие элемента
+function checkMassiv(arr, x) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] == x) {
+      return true;
+    }
+  }
+  return false;
+}
+
+//функция для проверки массива на наличие элемента и удаление этого элемента из массива
+function checkMassiv1(arr, x) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] == x) {
+      delElArray(arr, i);
+      return true;
+    }
+  }
+  return false;
+}
+
+function delElArray(arr, x) {
+  arr.splice(x, 1);
+}
+
+// создает коллекцию двухпалубных кораблей 
 function crTwoFloor() {
-   for (; object1.twoFloorVar == false;) {
-     for (; object1.twoFloorArr.a.length !== 2;) {
-       let rowCol = arrayRandElement(allField);
-       let ggh = universalFunc(rowCol);
-       if (ggh == false) {
-       } 
-       else {
-         console.log(rowCol, ggh);
-         object1.twoFloorArr.a.push(rowCol); // пушу 1 палубу
-         object1.twoFloorArr.a.push(ggh); // пушу 2 палубу
-         console.log(object1.twoFloorArr.a);
-         shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
-         shipsMassiv.push(ggh); // пушу в общий массив всех палуб
-         checkInput2(allField, sidesOfField, rowCol);
-         allField.push(ggh);
-         checkInput2(allField, sidesOfField, ggh);
-         console.log(allField);
-         checkMassiv1(allField, rowCol);
-         checkMassiv1(allField, ggh);
-         console.log(allField);
-       }
-     }
- 
-     for (; object1.twoFloorArr.b.length !== 2;) {
-       let rowCol2 = arrayRandElement(allField);
-       let ggh2 = universalFunc(rowCol2);
-       if (ggh2 == false) {
-       } 
-       else {
-         console.log(rowCol2, ggh2);
-         object1.twoFloorArr.b.push(rowCol2);
-         object1.twoFloorArr.b.push(ggh2);
-         shipsMassiv.push(rowCol2);
-         shipsMassiv.push(ggh2);
-         console.log(object1.twoFloorArr.b);
-         checkInput2(allField, sidesOfField, rowCol2);
-         allField.push(ggh2);
-         checkInput2(allField, sidesOfField, ggh2);
-         checkMassiv1(allField, rowCol2);
-         checkMassiv1(allField, ggh2);
-       }
-     }
- 
-     for (; object1.twoFloorArr.c.length !== 2;) {
-       let rowCol3 = arrayRandElement(allField);
-       let ggh3 = universalFunc(rowCol3);
-       if (ggh3 == false) {
-       } 
-       else {
-         console.log(rowCol3, ggh3);
-         object1.twoFloorArr.c.push(rowCol3);
-         object1.twoFloorArr.c.push(ggh3);
-         shipsMassiv.push(rowCol3);
-         shipsMassiv.push(ggh3);
-         console.log(object1.twoFloorArr.c);
-         checkInput2(allField, sidesOfField, rowCol3);
-         allField.push(ggh3);
-         checkInput2(allField, sidesOfField, ggh3);
-         checkMassiv1(allField, rowCol3);
-         checkMassiv1(allField, ggh3);
-       }
-     }
- 
-     if (object1.twoFloorArr.a.length == 2 && (object1.twoFloorArr.b.length + object1.twoFloorArr.c.length == 4)) {
-       object1.twoFloorVar = true;
-     }
-   }
- }
+  for (; object1.twoFloorVar == false;) {
+    for (; object1.twoFloorArr.a.length !== 2;) {
+      let rowCol = arrayRandElement(allField);
+      let ggh = universalFunc(rowCol);
+      if (ggh == false) {
+      }
+      else {
+        console.log(rowCol, ggh);
+        object1.twoFloorArr.a.push(rowCol); // пушу 1 палубу
+        object1.twoFloorArr.a.push(ggh); // пушу 2 палубу
+        console.log(object1.twoFloorArr.a);
+        shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
+        shipsMassiv.push(ggh); // пушу в общий массив всех палуб
+        checkInput2(allField, sidesOfField, rowCol);
+        allField.push(ggh);
+        checkInput2(allField, sidesOfField, ggh);
+        console.log(allField);
+        checkMassiv1(allField, rowCol);
+        checkMassiv1(allField, ggh);
+        console.log(allField);
+      }
+    }
 
- function crThreeFloor() {
-   for (; object1.threeFloorVar == false;) {
-     for (; object1.threeFloorArr.a.length !== 3;) {
-       let rowCol = arrayRandElement(allField);
-       let ggh = universalFunc(rowCol);
-       let ggh2 = universalFunc(ggh);
-       console.log(ggh2);
-       if (ggh == false) {
-         console.log('ggh = false');
-         continue;
-       } 
-       else if(ggh2 == false) {
-         console.log('ggh2 = false');
-         continue;
-       }
-       else if(ggh == false || ggh === ggh2) {
-         console.log('both wrong');
-         continue;
-       }
-       else {
-         console.log(rowCol, ggh);
-         object1.threeFloorArr.a.push(rowCol); // пушу 1 палубу
-         object1.threeFloorArr.a.push(ggh); // пушу 2 палубу
-         object1.threeFloorArr.a.push(ggh2); // пушу 3 палубу
-         console.log(object1.threeFloorArr.a);
-         checkInput2(allField, sidesOfField, rowCol);
-         allField.push(ggh);
-         allField.push(ggh2);
-         shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
-         shipsMassiv.push(ggh); // пушу в общий массив всех палуб
-         shipsMassiv.push(ggh2); // пушу в общий массив всех палуб
-         checkInput2(allField, sidesOfField, ggh);
-         console.log(allField);
-         checkInput2(allField, sidesOfField, ggh2);
-         checkMassiv1(allField, rowCol);
-         checkMassiv1(allField, ggh);
-         console.log(allField);
-       }
-     }
- 
-     for (; object1.threeFloorArr.b.length !== 3;) {
+    for (; object1.twoFloorArr.b.length !== 2;) {
+      let rowCol2 = arrayRandElement(allField);
+      let ggh2 = universalFunc(rowCol2);
+      if (ggh2 == false) {
+      }
+      else {
+        console.log(rowCol2, ggh2);
+        object1.twoFloorArr.b.push(rowCol2);
+        object1.twoFloorArr.b.push(ggh2);
+        shipsMassiv.push(rowCol2);
+        shipsMassiv.push(ggh2);
+        console.log(object1.twoFloorArr.b);
+        checkInput2(allField, sidesOfField, rowCol2);
+        allField.push(ggh2);
+        checkInput2(allField, sidesOfField, ggh2);
+        checkMassiv1(allField, rowCol2);
+        checkMassiv1(allField, ggh2);
+      }
+    }
+
+    for (; object1.twoFloorArr.c.length !== 2;) {
+      let rowCol3 = arrayRandElement(allField);
+      let ggh3 = universalFunc(rowCol3);
+      if (ggh3 == false) {
+      }
+      else {
+        console.log(rowCol3, ggh3);
+        object1.twoFloorArr.c.push(rowCol3);
+        object1.twoFloorArr.c.push(ggh3);
+        shipsMassiv.push(rowCol3);
+        shipsMassiv.push(ggh3);
+        console.log(object1.twoFloorArr.c);
+        checkInput2(allField, sidesOfField, rowCol3);
+        allField.push(ggh3);
+        checkInput2(allField, sidesOfField, ggh3);
+        checkMassiv1(allField, rowCol3);
+        checkMassiv1(allField, ggh3);
+      }
+    }
+
+    if (object1.twoFloorArr.a.length == 2 && (object1.twoFloorArr.b.length + object1.twoFloorArr.c.length == 4)) {
+      object1.twoFloorVar = true;
+    }
+  }
+}
+
+function crThreeFloor() {
+  for (; object1.threeFloorVar == false;) {
+    for (; object1.threeFloorArr.a.length !== 3;) {
       let rowCol = arrayRandElement(allField);
       let ggh = universalFunc(rowCol);
       let ggh2 = universalFunc(ggh);
+      console.log(ggh2);
       if (ggh == false) {
-         console.log('ggh = false');
-         continue;
-       } 
-       else if(ggh2 == false) {
-         console.log('ggh2 = false');
-         continue;
-       }
-       else if(ggh == false || ggh === ggh2) {
-         console.log('both wrong');
-         continue;
-       }
+        console.log('ggh = false');
+        continue;
+      }
+      else if (ggh2 == false) {
+        console.log('ggh2 = false');
+        continue;
+      }
+      else if (rowCol == false || ggh == ggh2 || rowCol == ggh || rowCol == ggh2) {
+        console.log('both wrong');
+        continue;
+      }
       else {
         console.log(rowCol, ggh);
-        object1.threeFloorArr.b.push(rowCol); // пушу 1 палубу
-        object1.threeFloorArr.b.push(ggh); // пушу 2 палубу
-        object1.threeFloorArr.b.push(ggh2); // пушу 3 палубу
-        console.log(object1.threeFloorArr.b);
+        object1.threeFloorArr.a.push(rowCol); // пушу 1 палубу
+        object1.threeFloorArr.a.push(ggh); // пушу 2 палубу
+        object1.threeFloorArr.a.push(ggh2); // пушу 3 палубу
+        console.log(object1.threeFloorArr.a);
         checkInput2(allField, sidesOfField, rowCol);
-        allField.push(ggh);
-        allField.push(ggh2);
+        // allField.push(ggh);
+        // allField.push(ggh2);
         shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
         shipsMassiv.push(ggh); // пушу в общий массив всех палуб
         shipsMassiv.push(ggh2); // пушу в общий массив всех палуб
@@ -519,154 +482,192 @@ function crTwoFloor() {
         checkInput2(allField, sidesOfField, ggh2);
         checkMassiv1(allField, rowCol);
         checkMassiv1(allField, ggh);
+        checkMassiv1(allField, ggh2);
         console.log(allField);
       }
     }
-     if (object1.threeFloorArr.a.length == 3 && object1.threeFloorArr.b.length == 3) {
-       object1.threeFloorVar = true;
-     }
-   }
- }
+
+    for (; object1.threeFloorArr.b.length !== 3;) {
+      let rowCol = arrayRandElement(allField);
+      let ggh = universalFunc(rowCol);
+      let ggh2 = universalFunc(ggh);
+      if (ggh == false) {
+        console.log('ggh = false');
+        continue;
+      }
+      else if (ggh2 == false) {
+        console.log('ggh2 = false');
+        continue;
+      }
+      else if (rowCol == false || ggh == ggh2 || rowCol == ggh || rowCol == ggh2) {
+        console.log('both wrong');
+        continue;
+      }
+      else {
+        console.log(rowCol, ggh);
+        object1.threeFloorArr.b.push(rowCol); // пушу 1 палубу
+        object1.threeFloorArr.b.push(ggh); // пушу 2 палубу
+        object1.threeFloorArr.b.push(ggh2); // пушу 3 палубу
+        console.log(object1.threeFloorArr.b);
+        checkInput2(allField, sidesOfField, rowCol);
+        // allField.push(ggh);
+        // allField.push(ggh2);
+        shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
+        shipsMassiv.push(ggh); // пушу в общий массив всех палуб
+        shipsMassiv.push(ggh2); // пушу в общий массив всех палуб
+        checkInput2(allField, sidesOfField, ggh);
+        console.log(allField);
+        checkInput2(allField, sidesOfField, ggh2);
+        checkMassiv1(allField, rowCol);
+        checkMassiv1(allField, ggh);
+        checkMassiv1(allField, ggh2);
+        console.log(allField);
+      }
+    }
+    if (object1.threeFloorArr.a.length == 3 && object1.threeFloorArr.b.length == 3) {
+      object1.threeFloorVar = true;
+    }
+  }
+}
 
 //  функция берет первую палубу и смотрит к какой части поля она относится
 //  от этого зависит, куда мы пойдем, чтобы строить вторую палубу
 
- function universalFunc(rowCol) { 
-   if (rowCol == sidesOfField.lUpCorner[0]) { // случайно создаю первую палубу 2-палубного корабля
-      // и проверяю, относится ли она к "00"
-      let uu = secTwo(secondFloorOfTwo, rowCol, 1); //затем пытаюсь создать вторую палубу
-      // при помощи цифры я указываю какой набор мат вычислений буду производить
-      // в этой же функции я совершаю рандом для второй палубы
-      if (simpleNumbers.indexOf(uu) === -1) { //здесь проверяю, односимвольное ли число или нет
-         // если не односимвольное, то просто преобразую в строку
-        uu = String(uu);
-      } 
-      else {
-        uu = String(uu);
-        uu = "0" + uu;
-      }
-      if (checkArr(allField, uu)) {
-        return uu;
-      }
-     return false;
-   }
-   else if (rowCol == sidesOfField.rUpCorner[0]) {
-      let uu = secTwo(secondFloorOfTwo, rowCol, 2);
-      if (simpleNumbers.indexOf(uu) === -1) {
-        uu = String(uu);
-      } else {
-        uu = String(uu);
-        uu = "0" + uu;
-      }
-      if (checkArr(allField, uu)) {
-        return uu;
-      }
-     return false;
-   }
-   else if (rowCol == sidesOfField.lDownCorner[0]) {
-      let uu = secTwo(secondFloorOfTwo, rowCol, 3);
-      if (checkArr(allField, uu)) {
-        return uu;
-      }
-     return false;
-   }
-   else if (rowCol == sidesOfField.rDownCorner[0]) {
-      let uu = secTwo(secondFloorOfTwo, rowCol, 4);
-      if (checkArr(allField, uu)) {
-        return uu;
-      }
-     return false;
-   }
-   else if (checkMassiv(sidesOfField.upperArray, rowCol)) {
-      let uu = secTwo(secondFloorOfTwo, rowCol, 5);
-      if (simpleNumbers.indexOf(uu) === -1) {
-        uu = String(uu);
-      } else {
-        uu = String(uu);
-        uu = "0" + uu;
-      }
-      if (checkArr(allField, uu)) {
-        return uu;
-      }
-     return false;
-   }
-   else if (checkMassiv(sidesOfField.rightArray, rowCol)) {
-      let uu = secTwo(secondFloorOfTwo, rowCol, 6);
-      if (simpleNumbers.indexOf(uu) === -1) {
-        uu = String(uu);
-      } else {
-        uu = String(uu);
-        uu = "0" + uu;
-      }
-      if (checkArr(allField, uu)) {
-        return uu;
-      }
-     return false;
-   }
-   else if (checkMassiv(sidesOfField.downArray, rowCol)) {
-      let uu = secTwo(secondFloorOfTwo, rowCol, 7);
-      if (checkArr(allField, uu)) {
-        return uu;
-      }
-     return false;
-   }
-   else if (checkMassiv(sidesOfField.leftArray, rowCol)) {
-      let uu = secTwo(secondFloorOfTwo, rowCol, 8);
-      if (simpleNumbers.indexOf(uu) === -1) { 
-        uu = String(uu);
-      } 
-      else { // если наша вторая палуба это цифра от 0 до 9, то ей прибавляется строковый "0"
-        uu = String(uu);
-        uu = "0" + uu;
-      }
-      if (checkArr(allField, uu)) {
-        return uu;
-      }
-     return false;
-   } 
-   else if (true) {
-      let uu = secTwo(secondFloorOfTwo, rowCol, 0);
-      if (simpleNumbers.indexOf(uu) === -1) { 
-         uu = String(uu);
-       } 
-       else { // если наша вторая палуба это цифра от 0 до 9, то ей прибавляется строковый "0"
-         uu = String(uu);
-         uu = "0" + uu;
-       }
-       if (checkArr(allField, uu)) {
-         return uu;
-       }
-       return false;
-   }
- }
- 
- function checkArr(arr, x) {
-   if (arr.indexOf(x) === -1) {
-     return false;
-   } else {
-     return true;
-   }
- }
- 
- 
- function checkSunkMassiv(mas, x) {
-   for (let i = 0, len = mas.length; i < len; i++) {
-     if (mas[i] == x) {
-       return true;
-     }
-   }
-   return false;
- }
+function universalFunc(rowCol) {
+  if (rowCol == sidesOfField.lUpCorner[0]) { // случайно создаю первую палубу 2-палубного корабля
+    // и проверяю, относится ли она к "00"
+    let uu = secTwo(secondFloorOfTwo, rowCol, 1); //затем пытаюсь создать вторую палубу
+    // при помощи цифры я указываю какой набор мат вычислений буду производить
+    // в этой же функции я совершаю рандом для второй палубы
+    if (simpleNumbers.indexOf(uu) === -1) { //здесь проверяю, односимвольное ли число или нет
+      // если не односимвольное, то просто преобразую в строку
+      uu = String(uu);
+    }
+    else {
+      uu = String(uu);
+      uu = "0" + uu;
+    }
+    if (checkArr(allField, uu)) {
+      return uu;
+    }
+    return false;
+  }
+  else if (rowCol == sidesOfField.rUpCorner[0]) {
+    let uu = secTwo(secondFloorOfTwo, rowCol, 2);
+    if (simpleNumbers.indexOf(uu) === -1) {
+      uu = String(uu);
+    } else {
+      uu = String(uu);
+      uu = "0" + uu;
+    }
+    if (checkArr(allField, uu)) {
+      return uu;
+    }
+    return false;
+  }
+  else if (rowCol == sidesOfField.lDownCorner[0]) {
+    let uu = secTwo(secondFloorOfTwo, rowCol, 3);
+    if (checkArr(allField, uu)) {
+      return uu;
+    }
+    return false;
+  }
+  else if (rowCol == sidesOfField.rDownCorner[0]) {
+    let uu = secTwo(secondFloorOfTwo, rowCol, 4);
+    if (checkArr(allField, uu)) {
+      return uu;
+    }
+    return false;
+  }
+  else if (checkMassiv(sidesOfField.upperArray, rowCol)) {
+    let uu = secTwo(secondFloorOfTwo, rowCol, 5);
+    if (simpleNumbers.indexOf(uu) === -1) {
+      uu = String(uu);
+    } else {
+      uu = String(uu);
+      uu = "0" + uu;
+    }
+    if (checkArr(allField, uu)) {
+      return uu;
+    }
+    return false;
+  }
+  else if (checkMassiv(sidesOfField.rightArray, rowCol)) {
+    let uu = secTwo(secondFloorOfTwo, rowCol, 6);
+    if (simpleNumbers.indexOf(uu) === -1) {
+      uu = String(uu);
+    } else {
+      uu = String(uu);
+      uu = "0" + uu;
+    }
+    if (checkArr(allField, uu)) {
+      return uu;
+    }
+    return false;
+  }
+  else if (checkMassiv(sidesOfField.downArray, rowCol)) {
+    let uu = secTwo(secondFloorOfTwo, rowCol, 7);
+    if (checkArr(allField, uu)) {
+      return uu;
+    }
+    return false;
+  }
+  else if (checkMassiv(sidesOfField.leftArray, rowCol)) {
+    let uu = secTwo(secondFloorOfTwo, rowCol, 8);
+    if (simpleNumbers.indexOf(uu) === -1) {
+      uu = String(uu);
+    }
+    else { // если наша вторая палуба это цифра от 0 до 9, то ей прибавляется строковый "0"
+      uu = String(uu);
+      uu = "0" + uu;
+    }
+    if (checkArr(allField, uu)) {
+      return uu;
+    }
+    return false;
+  }
+  else if (true) {
+    let uu = secTwo(secondFloorOfTwo, rowCol, 0);
+    if (simpleNumbers.indexOf(uu) === -1) {
+      uu = String(uu);
+    }
+    else { // если наша вторая палуба это цифра от 0 до 9, то ей прибавляется строковый "0"
+      uu = String(uu);
+      uu = "0" + uu;
+    }
+    if (checkArr(allField, uu)) {
+      return uu;
+    }
+    return false;
+  }
+}
 
- // довольно интересная функция, которой передается объект secondFloorOfTwo
- // объект secondFloorOfTwo содержит 4 метода, которые по сути являются 
- // единственными 4 путями как можно продолжить 1-палубный корабль до 2-палубного
- // для этого есть только 4 пути на нашем поле. уйти вверх, вправо, вниз или влево
- // но особенность этой функции не только в этом, она еще и реализует рандом между этими путями
- // то есть мало того, что здесь прописано куда только можем мы уйти при совпадении
- // rowcol с уникальными сторонами нашего поля, так еще и происходит случайный выбор между этими направлениями
+function checkArr(arr, x) {
+  if (arr.indexOf(x) === -1) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+
+function checkSunkMassiv(mas, x) {
+  for (let i = 0, len = mas.length; i < len; i++) {
+    if (mas[i] == x) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// довольно интересная функция, которой передается объект secondFloorOfTwo
+// объект secondFloorOfTwo содержит 4 метода, которые по сути являются 
+// единственными 4 путями как можно продолжить 1-палубный корабль до 2-палубного
+// для этого есть только 4 пути на нашем поле. уйти вверх, вправо, вниз или влево
+// но особенность этой функции не только в этом, она еще и реализует рандом между этими путями
+// то есть мало того, что здесь прописано куда только можем мы уйти при совпадении
+// rowcol с уникальными сторонами нашего поля, так еще и происходит случайный выбор между этими направлениями
 function secTwo(arr, x, y) {
-   let g, f, r, h;
   if (y == 0) {
     let array = [
       g = arr.a(x),
@@ -736,16 +737,16 @@ function secTwo(arr, x, y) {
 function checkInput2(arr, nextArr, rowCol) {
   if (rowCol == nextArr.lUpCorner[0]) {
     operationFuncs.if00(arr, rowCol);
-    delElMassiv(nextArr.lUpCorner, 0);
+    delElArray(nextArr.lUpCorner, 0);
   } else if (rowCol == nextArr.rUpCorner[0]) {
     operationFuncs.if09(arr, rowCol);
-    delElMassiv(nextArr.rUpCorner, 0);
+    delElArray(nextArr.rUpCorner, 0);
   } else if (rowCol == nextArr.lDownCorner[0]) {
     operationFuncs.if90(arr, rowCol);
-    delElMassiv(nextArr.lDownCorner, 0);
+    delElArray(nextArr.lDownCorner, 0);
   } else if (rowCol == nextArr.rDownCorner[0]) {
     operationFuncs.if99(arr, rowCol);
-    delElMassiv(nextArr.rDownCorner, 0);
+    delElArray(nextArr.rDownCorner, 0);
   } else if (checkMassiv(nextArr.upperArray, rowCol)) {
     operationFuncs.ifUpper(arr, rowCol);
     checkMassiv1(nextArr.upperArray, rowCol);
@@ -764,9 +765,9 @@ function checkInput2(arr, nextArr, rowCol) {
 }
 
 function test() {
-   let ee = arrayRandElement(allField);
-       let tt = universalFunc(ee);
-       console.log(ee, tt);
+  let ee = arrayRandElement(allField);
+  let tt = universalFunc(ee);
+  console.log(ee, tt);
 
 }
 
