@@ -5,6 +5,8 @@ let allField2 = [];
 let shipsMassiv = []; // массив всех кораблей
 let sunkShips = [];
 let simpleNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+let emptySpacesAroundShip = [];
+let emptySpacesAroundShip2 = [];
 
 //  объект, содержащий особенные массивы. дело в том, что когда мы резервируем 
 // определенную клетку поля под корабль. то нам надо удалить все другие клетки вокр
@@ -218,8 +220,6 @@ function init() {
   createAllField(allField); // создаются строки от "00" до "09"
   createAllField1(allField); // создаются остальные числа в виде строк от "10" до "99"
   // allField.forEach((item) => allField2.push(item));
-  console.log(allField);
-  console.log(allField2);
   document.getElementById("fireButton").onclick = handleFireButton; // получается кнопка на которую жмет пользователь 
   // после ввода координат выстрела, и на нее вешается 
   // событие клика, которое вызывает функцию handleFireButton
@@ -236,21 +236,8 @@ function init() {
     shipsMassiv.push(rowCol);
   }
 
-  console.log(shipsMassiv);
-  console.log(allField);
-  console.log(allField2);
   crTwoFloor();
   crThreeFloor();
-  // const emptySpacesAroundShips = allField2.filter(function(item) {
-  //    if(allField.includes(item) == false) {
-  //       return item;
-  //    }
-  // });
-  //    console.log(emptySpacesAroundShips);
-  //    emptySpacesAroundShips.forEach((item) => {
-  //       setMiss(item);
-  //    });
-  console.log(shipsMassiv);
   shipsMassiv.forEach((item) => {
     setHit(item);
   });
@@ -312,7 +299,6 @@ function handleKeyPress(e) {
 // получает массив, создает рандомный индекс, который не больше чем последний индекс
 // переданного массива. по этому индексу возращает элемент из переданного массива
 function arrayRandElement(arr) {
-  console.log('длина массива: ' + arr.length);
   let rand = Math.floor(Math.random() * arr.length);
   return arr[rand];
 }
@@ -323,28 +309,20 @@ function arrayRandElement(arr) {
 function checkInputAndExclude(rowCol) {
   if (rowCol == sidesOfField.lUpCorner[0]) {
     operationFuncs.if00(allField, rowCol); // функция, которая удаляет 3 клетки вокруг элемента "00"
-    delElArray(sidesOfField.lUpCorner, 0);
   } else if (rowCol == sidesOfField.rUpCorner[0]) {
     operationFuncs.if09(allField, rowCol);
-    delElArray(sidesOfField.rUpCorner, 0);
   } else if (rowCol == sidesOfField.lDownCorner[0]) {
     operationFuncs.if90(allField, rowCol);
-    delElArray(sidesOfField.lDownCorner, 0);
   } else if (rowCol == sidesOfField.rDownCorner[0]) {
     operationFuncs.if99(allField, rowCol);
-    delElArray(sidesOfField.rDownCorner, 0);
   } else if (checkMassiv(sidesOfField.upperArray, rowCol)) {
     operationFuncs.ifUpper(allField, rowCol);
-    checkMassiv1(sidesOfField.upperArray, rowCol);
   } else if (checkMassiv(sidesOfField.rightArray, rowCol)) {
     operationFuncs.ifRight(allField, rowCol);
-    checkMassiv1(sidesOfField.rightArray, rowCol);
   } else if (checkMassiv(sidesOfField.downArray, rowCol)) {
     operationFuncs.ifDown(allField, rowCol);
-    checkMassiv1(sidesOfField.downArray, rowCol);
   } else if (checkMassiv(sidesOfField.leftArray, rowCol)) {
     operationFuncs.ifLeft(allField, rowCol);
-    checkMassiv1(sidesOfField.leftArray, rowCol);
   } else {
     operationFuncs.ifAnother(allField, rowCol);
   }
@@ -370,9 +348,39 @@ function checkMassiv1(arr, x) {
   }
   return false;
 }
+function checkMassiv2(arr, x) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] == x) {
+      delElArray2(arr, i);
+      return true;
+    }
+  }
+  return false;
+}
+function checkMassiv3(arr, x) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] == x) {
+      delElArray3(arr, i);
+      return true;
+    }
+  }
+  return false;
+}
 
 function delElArray(arr, x) {
   arr.splice(x, 1);
+}
+function delElArray2(arr, x) {
+  arr.splice(x, 1);
+  if (arr[x] != undefined) {
+    emptySpacesAroundShip.push(arr[x]);
+  }
+}
+function delElArray3(arr, x) {
+  arr.splice(x, 1);
+  if (arr[x] != undefined) {
+    emptySpacesAroundShip2.push(arr[x]);
+  }
 }
 
 // создает коллекцию двухпалубных кораблей 
@@ -384,19 +392,15 @@ function crTwoFloor() {
       if (ggh == false) {
       }
       else {
-        console.log(rowCol, ggh);
         object1.twoFloorArr.a.push(rowCol); // пушу 1 палубу
         object1.twoFloorArr.a.push(ggh); // пушу 2 палубу
-        console.log(object1.twoFloorArr.a);
         shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
         shipsMassiv.push(ggh); // пушу в общий массив всех палуб
         checkInput2(allField, sidesOfField, rowCol);
         allField.push(ggh);
         checkInput2(allField, sidesOfField, ggh);
-        console.log(allField);
         checkMassiv1(allField, rowCol);
         checkMassiv1(allField, ggh);
-        console.log(allField);
       }
     }
 
@@ -406,12 +410,10 @@ function crTwoFloor() {
       if (ggh2 == false) {
       }
       else {
-        console.log(rowCol2, ggh2);
         object1.twoFloorArr.b.push(rowCol2);
         object1.twoFloorArr.b.push(ggh2);
         shipsMassiv.push(rowCol2);
         shipsMassiv.push(ggh2);
-        console.log(object1.twoFloorArr.b);
         checkInput2(allField, sidesOfField, rowCol2);
         allField.push(ggh2);
         checkInput2(allField, sidesOfField, ggh2);
@@ -426,12 +428,10 @@ function crTwoFloor() {
       if (ggh3 == false) {
       }
       else {
-        console.log(rowCol3, ggh3);
         object1.twoFloorArr.c.push(rowCol3);
         object1.twoFloorArr.c.push(ggh3);
         shipsMassiv.push(rowCol3);
         shipsMassiv.push(ggh3);
-        console.log(object1.twoFloorArr.c);
         checkInput2(allField, sidesOfField, rowCol3);
         allField.push(ggh3);
         checkInput2(allField, sidesOfField, ggh3);
@@ -452,38 +452,25 @@ function crThreeFloor() {
       let rowCol = arrayRandElement(allField);
       let ggh = universalFunc(rowCol);
       let ggh2 = universalFunc(ggh);
-      console.log(ggh2);
-      if (ggh == false) {
-        console.log('ggh = false');
-        continue;
-      }
-      else if (ggh2 == false) {
-        console.log('ggh2 = false');
-        continue;
-      }
-      else if (rowCol == false || ggh == ggh2 || rowCol == ggh || rowCol == ggh2) {
-        console.log('both wrong');
+      if (ggh == false || ggh2 == false || ggh == ggh2 || rowCol == ggh || rowCol == ggh2) {
         continue;
       }
       else {
-        console.log(rowCol, ggh);
+        console.log(rowCol, ggh, ggh2);
         object1.threeFloorArr.a.push(rowCol); // пушу 1 палубу
         object1.threeFloorArr.a.push(ggh); // пушу 2 палубу
         object1.threeFloorArr.a.push(ggh2); // пушу 3 палубу
-        console.log(object1.threeFloorArr.a);
-        checkInput2(allField, sidesOfField, rowCol);
-        // allField.push(ggh);
-        // allField.push(ggh2);
         shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
         shipsMassiv.push(ggh); // пушу в общий массив всех палуб
         shipsMassiv.push(ggh2); // пушу в общий массив всех палуб
+        checkInput2(allField, sidesOfField, rowCol);
+        allField.push(ggh);
         checkInput2(allField, sidesOfField, ggh);
-        console.log(allField);
+        allField.push(ggh2);
         checkInput2(allField, sidesOfField, ggh2);
         checkMassiv1(allField, rowCol);
         checkMassiv1(allField, ggh);
         checkMassiv1(allField, ggh2);
-        console.log(allField);
       }
     }
 
@@ -491,37 +478,25 @@ function crThreeFloor() {
       let rowCol = arrayRandElement(allField);
       let ggh = universalFunc(rowCol);
       let ggh2 = universalFunc(ggh);
-      if (ggh == false) {
-        console.log('ggh = false');
-        continue;
-      }
-      else if (ggh2 == false) {
-        console.log('ggh2 = false');
-        continue;
-      }
-      else if (rowCol == false || ggh == ggh2 || rowCol == ggh || rowCol == ggh2) {
-        console.log('both wrong');
+      if (ggh == false || ggh2 == false || ggh == ggh2 || rowCol == ggh || rowCol == ggh2) {
         continue;
       }
       else {
-        console.log(rowCol, ggh);
         object1.threeFloorArr.b.push(rowCol); // пушу 1 палубу
         object1.threeFloorArr.b.push(ggh); // пушу 2 палубу
         object1.threeFloorArr.b.push(ggh2); // пушу 3 палубу
-        console.log(object1.threeFloorArr.b);
-        checkInput2(allField, sidesOfField, rowCol);
-        // allField.push(ggh);
-        // allField.push(ggh2);
         shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
         shipsMassiv.push(ggh); // пушу в общий массив всех палуб
         shipsMassiv.push(ggh2); // пушу в общий массив всех палуб
+        checkInput2(allField, sidesOfField, rowCol);
+        allField.push(ggh);
         checkInput2(allField, sidesOfField, ggh);
-        console.log(allField);
+        allField.push(ggh2);
         checkInput2(allField, sidesOfField, ggh2);
         checkMassiv1(allField, rowCol);
         checkMassiv1(allField, ggh);
         checkMassiv1(allField, ggh2);
-        console.log(allField);
+        console.log(emptySpacesAroundShip);
       }
     }
     if (object1.threeFloorArr.a.length == 3 && object1.threeFloorArr.b.length == 3) {
@@ -530,6 +505,16 @@ function crThreeFloor() {
   }
 }
 
+function compareTwoArrays(arr1, arr2) {
+  for (let i = 0; i < arr1.length; i++) {
+    for (let k = 0; k < arr2.length; k++) {
+      if (arr2[k] == arr1[i]) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
 //  функция берет первую палубу и смотрит к какой части поля она относится
 //  от этого зависит, куда мы пойдем, чтобы строить вторую палубу
 
@@ -737,28 +722,20 @@ function secTwo(arr, x, y) {
 function checkInput2(arr, nextArr, rowCol) {
   if (rowCol == nextArr.lUpCorner[0]) {
     operationFuncs.if00(arr, rowCol);
-    delElArray(nextArr.lUpCorner, 0);
   } else if (rowCol == nextArr.rUpCorner[0]) {
     operationFuncs.if09(arr, rowCol);
-    delElArray(nextArr.rUpCorner, 0);
   } else if (rowCol == nextArr.lDownCorner[0]) {
     operationFuncs.if90(arr, rowCol);
-    delElArray(nextArr.lDownCorner, 0);
   } else if (rowCol == nextArr.rDownCorner[0]) {
     operationFuncs.if99(arr, rowCol);
-    delElArray(nextArr.rDownCorner, 0);
   } else if (checkMassiv(nextArr.upperArray, rowCol)) {
     operationFuncs.ifUpper(arr, rowCol);
-    checkMassiv1(nextArr.upperArray, rowCol);
   } else if (checkMassiv(nextArr.rightArray, rowCol)) {
     operationFuncs.ifRight(arr, rowCol);
-    checkMassiv1(nextArr.rightArray, rowCol);
   } else if (checkMassiv(nextArr.downArray, rowCol)) {
     operationFuncs.ifDown(arr, rowCol);
-    checkMassiv1(nextArr.downArray, rowCol);
   } else if (checkMassiv(nextArr.leftArray, rowCol)) {
     operationFuncs.ifLeft(arr, rowCol);
-    checkMassiv1(nextArr.leftArray, rowCol);
   } else if (true) {
     operationFuncs.ifAnother(arr, rowCol);
   }
@@ -767,8 +744,6 @@ function checkInput2(arr, nextArr, rowCol) {
 function test() {
   let ee = arrayRandElement(allField);
   let tt = universalFunc(ee);
-  console.log(ee, tt);
-
 }
 
 function setHit(x) {
