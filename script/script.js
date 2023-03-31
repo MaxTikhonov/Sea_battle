@@ -1,4 +1,5 @@
 //arrayRandElement(allField)
+// document.querySelector('message-area').innerHTML = 'Вы потопили 1-палубный';
 let alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 let allField = []; // все игровое поле. будет состоять из 100 строк от "00" до "99"
 let allField2 = [];
@@ -27,6 +28,9 @@ let objOfFourFloor = {
   0: []
 }
 
+function getMessageArea() {
+  document.querySelector('.message-area').innerHTML = 'Игра началась...';
+}
 //  объект, содержащий особенные массивы. дело в том, что когда мы резервируем 
 // определенную клетку поля под корабль. то нам надо удалить все другие клетки вокр
 // уг нее, чтобы она ни дай бог не соприкасалась с другими кораблями. но удалять ну
@@ -52,11 +56,11 @@ function setGrayDot(e) {
     // не всегда у элемента div может быть первым узел img, поэтому здесь производится проверка на то, есть ли такой узел
     if (item.name = 'img') {
       let check = false;
-      shipsMassiv.forEach((item) => {
+      sunkShips.forEach((item) => {
         if (item == a) {
           check = true;
         }
-      })
+      });
       if (check == true) {
       }
       else {
@@ -78,6 +82,12 @@ function changeImg(e) {
       })
       if (b == true) {
         if (checkMassiv(shipsMassiv, a)) {
+          for (let key in objOfOneFloor) {
+            if (objOfOneFloor[key] == a) {
+              document.querySelector('.message-area').innerHTML = 'Вы потопили 1-палубный';
+              setTimeout(getMessageArea, 4000);
+            }
+          }
           item.src = '/image/ship3.png';
           hits = hits + 1;
           sunkShips.push(a);
@@ -129,10 +139,6 @@ let object1 = {
   threeFloorArr: {
     a: [],
     b: []
-  },
-  messageArea: function () {
-    let var1 = document.getElementById("messageArea");
-    return var1;
   }
 };
 
@@ -529,7 +535,6 @@ function crTwoFloor() {
       object1.twoFloorVar = true;
     }
   }
-  console.log(objOfTwoFloor)
 }
 
 function crThreeFloor() {
@@ -593,7 +598,6 @@ function crThreeFloor() {
       object1.threeFloorVar = true;
     }
   }
-  console.log(objOfThreeFloor)
 }
 
 function compareTwoArrays(arr1, arr2) {
