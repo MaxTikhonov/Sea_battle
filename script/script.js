@@ -1,14 +1,41 @@
 //arrayRandElement(allField)
 // document.querySelector('message-area').innerHTML = 'Вы потопили 1-палубный';
 let alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
-let allField = []; // все игровое поле. будет состоять из 100 строк от "00" до "99"
+let allField = []; // все игровое поле. будет состоять из 100 строк от "00" до "99" включительно
 let allField2 = [];
-let shipsMassiv = []; // массив всех кораблей
+let shipsArray = []; // массив всех кораблей
 let sunkShips = [];
 let simpleNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 let emptySpacesAroundShip = [];
 let emptySpacesAroundShip2 = [];
 let varOfIdOfOneShot;
+let objOfSunkOneFloor = {
+  0: '',
+  1: '',
+  2: '',
+  3: '',
+  check() {
+    let i = 0;
+    for (let key in this) {
+      if (this[key] != '' && key != 'check') {
+        i++;
+      }
+    }
+    return i;
+  }
+}
+let objOfSunkTwoFloor = {
+  0: [],
+  1: [],
+  2: []
+}
+let objOfSunkThreeFloor = {
+  0: [],
+  1: []
+}
+let objOfSunkFourFloor = {
+  0: []
+}
 let objOfOneFloor = {
   0: '',
   1: '',
@@ -54,7 +81,7 @@ function setGrayDot(e) {
   let a = this.id;
   this.childNodes.forEach((item) => {
     // не всегда у элемента div может быть первым узел img, поэтому здесь производится проверка на то, есть ли такой узел
-    if (item.name = 'img') {
+    if (item.nodeName = 'IMG') {
       let check = false;
       sunkShips.forEach((item) => {
         if (item == a) {
@@ -70,21 +97,25 @@ function setGrayDot(e) {
   })
 }
 function changeImg(e) {
+  console.log(objOfOneFloor,
+    objOfTwoFloor, objOfThreeFloor, objOfFourFloor);
   this.childNodes.forEach((item) => {
     let a = item.parentElement.id;
     // не всегда у элемента div может быть первым узел img, поэтому здесь производится проверка на то, есть ли такой узел
-    if (item.name = 'img') {
+    if (item.nodeName == 'IMG') {
       let b = false;
-      shipsMassiv.forEach((item) => {
+      shipsArray.forEach((item) => {
         if (item == a) {
           b = true;
         }
       })
       if (b == true) {
-        if (checkMassiv(shipsMassiv, a)) {
+        if (checkMassiv(shipsArray, a)) {
           for (let key in objOfOneFloor) {
-            if (objOfOneFloor[key] == a) {
-              document.querySelector('.message-area').innerHTML = 'Вы потопили 1-палубный';
+            if (objOfOneFloor[key] == a && objOfSunkOneFloor[key] != a) {
+              objOfSunkOneFloor[key] = objOfOneFloor[key];
+              document.querySelector('.message-area').innerHTML = 'Потоплен 1-палубный';
+              document.querySelector('.number-of-1sunk-ships').innerHTML = objOfSunkOneFloor.check();
               setTimeout(getMessageArea, 4000);
             }
           }
@@ -303,7 +334,7 @@ function init() {
   // событие клика, которое вызывает функцию handleFireButton
   document.getElementById("guessInput").onkeydown = handleKeyPress; // получается поле ввода, куда пользователь вводит 
   // координаты выстрела и на него вешается функция handleKeyPress
-  for (let i = 0; shipsMassiv.length < 4; i++) {
+  for (let i = 0; shipsArray.length < 4; i++) {
     // цикл работает пока массив однопалубников не сформирован до 4 элементов
     let rowCol = arrayRandElement(allField); // создается переменная в которой вызывается функция, в 
     // которую передается весь главный массив
@@ -312,15 +343,15 @@ function init() {
     // которое соответствует логике, прописанной для каждой определенной клетки поля
     checkMassiv1(allField, rowCol);
     objOfOneFloor[i] = rowCol;
-    shipsMassiv.push(rowCol);
+    shipsArray.push(rowCol);
   }
 
   crTwoFloor();
   crThreeFloor();
-  // shipsMassiv.forEach((item) => {
+  // shipsArray.forEach((item) => {
   //   setHit(item);
   // });
-  console.log('shipsmassiv:', shipsMassiv);
+  console.log('shipsArray:', shipsArray);
   setHandler();
 }
 
@@ -353,10 +384,11 @@ function handleFireButton() {
       secondNumber < 0 || secondNumber >= 10) {
     } else {
       let trueNumber = firstNumber + secondNumber;
-      if (checkMassiv1(shipsMassiv, trueNumber)) {
+      if (checkMassiv1(shipsArray, trueNumber)) {
         setHit(trueNumber);
         hits = hits + 1;
         sunkShips.push(trueNumber);
+        console.log(shipsArray)
       } else if (checkSunkMassiv(sunkShips, trueNumber)) {
       } else {
         setMiss(trueNumber);
@@ -476,8 +508,8 @@ function crTwoFloor() {
       else {
         object1.twoFloorArr.a.push(rowCol); // пушу 1 палубу
         object1.twoFloorArr.a.push(ggh); // пушу 2 палубу
-        shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
-        shipsMassiv.push(ggh); // пушу в общий массив всех палуб
+        shipsArray.push(rowCol); // пушу в общий массив всех палуб
+        shipsArray.push(ggh); // пушу в общий массив всех палуб
         checkInput2(allField, sidesOfField, rowCol);
         allField.push(ggh);
         checkInput2(allField, sidesOfField, ggh);
@@ -497,8 +529,8 @@ function crTwoFloor() {
       else {
         object1.twoFloorArr.b.push(rowCol2);
         object1.twoFloorArr.b.push(ggh2);
-        shipsMassiv.push(rowCol2);
-        shipsMassiv.push(ggh2);
+        shipsArray.push(rowCol2);
+        shipsArray.push(ggh2);
         checkInput2(allField, sidesOfField, rowCol2);
         allField.push(ggh2);
         checkInput2(allField, sidesOfField, ggh2);
@@ -518,8 +550,8 @@ function crTwoFloor() {
       else {
         object1.twoFloorArr.c.push(rowCol3);
         object1.twoFloorArr.c.push(ggh3);
-        shipsMassiv.push(rowCol3);
-        shipsMassiv.push(ggh3);
+        shipsArray.push(rowCol3);
+        shipsArray.push(ggh3);
         checkInput2(allField, sidesOfField, rowCol3);
         allField.push(ggh3);
         checkInput2(allField, sidesOfField, ggh3);
@@ -550,9 +582,9 @@ function crThreeFloor() {
         object1.threeFloorArr.a.push(rowCol); // пушу 1 палубу
         object1.threeFloorArr.a.push(ggh); // пушу 2 палубу
         object1.threeFloorArr.a.push(ggh2); // пушу 3 палубу
-        shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
-        shipsMassiv.push(ggh); // пушу в общий массив всех палуб
-        shipsMassiv.push(ggh2); // пушу в общий массив всех палуб
+        shipsArray.push(rowCol); // пушу в общий массив всех палуб
+        shipsArray.push(ggh); // пушу в общий массив всех палуб
+        shipsArray.push(ggh2); // пушу в общий массив всех палуб
         checkInput2(allField, sidesOfField, rowCol);
         allField.push(ggh);
         checkInput2(allField, sidesOfField, ggh);
@@ -578,9 +610,9 @@ function crThreeFloor() {
         object1.threeFloorArr.b.push(rowCol); // пушу 1 палубу
         object1.threeFloorArr.b.push(ggh); // пушу 2 палубу
         object1.threeFloorArr.b.push(ggh2); // пушу 3 палубу
-        shipsMassiv.push(rowCol); // пушу в общий массив всех палуб
-        shipsMassiv.push(ggh); // пушу в общий массив всех палуб
-        shipsMassiv.push(ggh2); // пушу в общий массив всех палуб
+        shipsArray.push(rowCol); // пушу в общий массив всех палуб
+        shipsArray.push(ggh); // пушу в общий массив всех палуб
+        shipsArray.push(ggh2); // пушу в общий массив всех палуб
         checkInput2(allField, sidesOfField, rowCol);
         allField.push(ggh);
         checkInput2(allField, sidesOfField, ggh);
