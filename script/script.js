@@ -5,6 +5,13 @@ let allField = []; // все игровое поле. будет состоят�
 let allField2 = [];
 let shipsArray = []; // массив всех кораблей
 let sunkShips = [];
+let counterOfShots;
+let amountOfSunkShipsForPageProof = {
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0
+}
 let simpleNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 let emptySpacesAroundShip = [];
 let emptySpacesAroundShip2 = [];
@@ -21,14 +28,27 @@ let objOfSunkOneFloor = {
         i++;
       }
     }
-    return i;
+    amountOfSunkShipsForPageProof[1] = i;
   }
 }
 let objOfSunkTwoFloor = {
-  0: [],
-  1: [],
-  2: []
+  0: ['', ''],
+  1: ['', ''],
+  2: ['', ''],
+  check(v) {
+    let counter = 0;
+    for (let i = 0; i < this[v].length; i++) {
+      if (this[v][i] != '') {
+        counter++;
+      }
+    }
+    if (counter == 2) {
+      amountOfSunkShipsForPageProof[2]++;
+      return true;
+    }
+  }
 }
+
 let objOfSunkThreeFloor = {
   0: [],
   1: []
@@ -97,8 +117,7 @@ function setGrayDot(e) {
   })
 }
 function changeImg(e) {
-  console.log(objOfOneFloor,
-    objOfTwoFloor, objOfThreeFloor, objOfFourFloor);
+  counterOfShots++;
   this.childNodes.forEach((item) => {
     let a = item.parentElement.id;
     // не всегда у элемента div может быть первым узел img, поэтому здесь производится проверка на то, есть ли такой узел
@@ -115,8 +134,22 @@ function changeImg(e) {
             if (objOfOneFloor[key] == a && objOfSunkOneFloor[key] != a) {
               objOfSunkOneFloor[key] = objOfOneFloor[key];
               document.querySelector('.message-area').innerHTML = 'Потоплен 1-палубный';
-              document.querySelector('.number-of-1sunk-ships').innerHTML = objOfSunkOneFloor.check();
+              objOfSunkOneFloor.check();
+              document.querySelector('.number-of-1sunk-ships').innerHTML = amountOfSunkShipsForPageProof[1];
               setTimeout(getMessageArea, 4000);
+              break;
+            }
+          }
+          for (let key in objOfTwoFloor) {
+            for (let i = 0; i < 2; i++) {
+              if (objOfTwoFloor[key][i] == a && objOfSunkTwoFloor[key][i] != a) {
+                objOfSunkTwoFloor[key][i] = objOfTwoFloor[key][i];
+                if (objOfSunkTwoFloor.check(key)) {
+                  document.querySelector('.message-area').innerHTML = 'Потоплен 2-палубный';
+                  document.querySelector('.number-of-2sunk-ships').innerHTML = amountOfSunkShipsForPageProof[2];
+                  setTimeout(getMessageArea, 4000);
+                }
+              }
             }
           }
           item.src = '/image/ship3.png';

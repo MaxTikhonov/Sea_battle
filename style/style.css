@@ -48,7 +48,7 @@ background: #333;
 .firstpage {
    width: 100%;
    height: 100%;
-   margin-left: 1rem;
+   padding-left: 1rem;
    display: flex;
 }
 .fortable {
@@ -83,6 +83,7 @@ background: #333;
 .main-table {
    width: 100%;
    height: 100%;
+   margin-left: .7rem;
    border-collapse: collapse;
    background: url(/image/radar11.png) no-repeat center;
 }
@@ -122,9 +123,6 @@ td.unborder {
 }
 .info-about-one-floor-ship {
    color: white;
-}
-.number-of-sunk-ships {
-
 }
 .info-about-sunk-ships {
    margin-top: .5rem;
