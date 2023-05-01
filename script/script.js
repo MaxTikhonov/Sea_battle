@@ -1,11 +1,22 @@
 //arrayRandElement(allField)
 // document.querySelector('message-area').innerHTML = 'Вы потопили 1-палубный';
+function my_function(n) {
+  if (n <= 1) {
+    return 1;
+  }
+  else {
+    return my_function(n - 1) + ' ' + n
+  }
+}
+console.log(my_function(11));
+
 let alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 let allField = []; // все игровое поле. будет состоять из 100 строк от "00" до "99" включительно
 let allField2 = [];
+let arrayOfGotElementById = [];
 let shipsArray = []; // массив всех кораблей
 let sunkShips = [];
-let counterOfShots;
+let counterOfShots = 0;
 let amountOfSunkShipsForPageProof = {
   1: 0,
   2: 0,
@@ -122,42 +133,41 @@ function changeImg(e) {
     let a = item.parentElement.id;
     // не всегда у элемента div может быть первым узел img, поэтому здесь производится проверка на то, есть ли такой узел
     if (item.nodeName == 'IMG') {
-      let b = false;
-      shipsArray.forEach((item) => {
-        if (item == a) {
-          b = true;
-        }
-      })
-      if (b == true) {
-        if (checkMassiv(shipsArray, a)) {
-          for (let key in objOfOneFloor) {
-            if (objOfOneFloor[key] == a && objOfSunkOneFloor[key] != a) {
-              objOfSunkOneFloor[key] = objOfOneFloor[key];
-              document.querySelector('.message-area').innerHTML = 'Потоплен 1-палубный';
-              objOfSunkOneFloor.check();
-              document.querySelector('.number-of-1sunk-ships').innerHTML = amountOfSunkShipsForPageProof[1];
-              setTimeout(getMessageArea, 4000);
-              break;
-            }
+      if (checkMassiv(shipsArray, a) && !checkMassiv(sunkShips, a)) {
+        for (let key in objOfOneFloor) {
+          if (objOfOneFloor[key] == a && objOfSunkOneFloor[key] != a) {
+            objOfSunkOneFloor[key] = objOfOneFloor[key];
+            document.querySelector('.message-area').innerHTML = 'Потоплен 1-палубный';
+            objOfSunkOneFloor.check();
+            document.querySelector('.number-of-1sunk-ships').innerHTML = amountOfSunkShipsForPageProof[1];
+            setTimeout(getMessageArea, 4000);
+            break;
           }
-          for (let key in objOfTwoFloor) {
-            for (let i = 0; i < 2; i++) {
-              if (objOfTwoFloor[key][i] == a && objOfSunkTwoFloor[key][i] != a) {
-                objOfSunkTwoFloor[key][i] = objOfTwoFloor[key][i];
-                if (objOfSunkTwoFloor.check(key)) {
-                  document.querySelector('.message-area').innerHTML = 'Потоплен 2-палубный';
-                  document.querySelector('.number-of-2sunk-ships').innerHTML = amountOfSunkShipsForPageProof[2];
-                  setTimeout(getMessageArea, 4000);
-                }
+        }
+        for (let key in objOfTwoFloor) {
+          for (let i = 0; i < 2; i++) {
+            if (objOfTwoFloor[key][i] == a && objOfSunkTwoFloor[key][i] != a) {
+              objOfSunkTwoFloor[key][i] = objOfTwoFloor[key][i];
+              if (objOfSunkTwoFloor.check(key)) {
+                document.querySelector('.message-area').innerHTML = 'Потоплен 2-палубный';
+                document.querySelector('.number-of-2sunk-ships').innerHTML = amountOfSunkShipsForPageProof[2];
+                setTimeout(getMessageArea, 4000);
               }
             }
           }
-          item.src = '/image/ship3.png';
-          hits = hits + 1;
-          sunkShips.push(a);
+        }
+        item.src = '/image/ship3.png';
+        hits = hits + 1;
+        sunkShips.push(a);
+        if (sunkShips.length == 16) {
+          document.querySelector('.info-of-endgame').innerHTML = 'Победа!';
+          document.querySelector('.amount-of-shots').innerHTML = `Игра завершена за ${counterOfShots} ходов`;
+          arrayOfGotElementById.forEach((item) => {
+            item.removeEventListener('click', changeImg);
+          })
         }
       }
-      else {
+      else if (!checkMassiv(sunkShips, a)) {
         item.src = '/image/miss2.png';
       }
     }
@@ -166,10 +176,9 @@ function changeImg(e) {
 function setHandler() {
   let a;
   console.log(allField2)
-  allField2.forEach((item) => {
-    a = document.getElementById(item);
-    a.addEventListener('click', changeImg);
-    a.addEventListener('contextmenu', setGrayDot);
+  arrayOfGotElementById.forEach((item) => {
+    item.addEventListener('click', changeImg);
+    item.addEventListener('contextmenu', setGrayDot);
   })
 }
 
@@ -362,6 +371,9 @@ function init() {
   createAllField(allField); // создаются строки от "00" до "09"
   createAllField1(allField); // создаются остальные числа в виде строк от "10" до "99"
   allField.forEach((item) => allField2.push(item));
+  allField2.forEach((item) => {
+    arrayOfGotElementById.push(document.getElementById(item));
+  })
   document.getElementById("fireButton").onclick = handleFireButton; // получается кнопка на которую жмет пользователь 
   // после ввода координат выстрела, и на нее вешается 
   // событие клика, которое вызывает функцию handleFireButton
@@ -377,6 +389,9 @@ function init() {
     checkMassiv1(allField, rowCol);
     objOfOneFloor[i] = rowCol;
     shipsArray.push(rowCol);
+    console.log(objOfOneFloor);
+    console.log(objOfTwoFloor);
+    console.log(objOfThreeFloor);
   }
 
   crTwoFloor();
