@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
-    background: black;
+    background-color: #7FC7FF;
 }
 *,
 *:before,
@@ -17,7 +17,7 @@ background: pink;
 .main-wrapper {
    width: 100%;
    height: 100%;
-   background-color: #000;
+   background-color: #7FC7FF;
    margin-top: 4rem;
 }
 .wrapper-for-form {
@@ -271,16 +271,6 @@ form input {
    color: white;
 }
 @media (max-width: 1280px) {
-.table {
-top: 30px;
-left: -38px;
-bottom: 0;
- max-width: 750px;
-}
-.table td {
-font-size: 24px;
-height: 56px;
-}
 .fortable {
 max-width: 600px;
 height: 620px;

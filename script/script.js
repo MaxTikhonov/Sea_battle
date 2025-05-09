@@ -1,15 +1,3 @@
-//arrayRandElement(allField)
-// document.querySelector('message-area').innerHTML = 'Вы потопили 1-палубный';
-function my_function(n) {
-  if (n <= 1) {
-    return 1;
-  }
-  else {
-    return my_function(n - 1) + ' ' + n
-  }
-}
-console.log(my_function(11));
-
 let alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 let allField = []; // все игровое поле. будет состоять из 100 строк от "00" до "99" включительно
 let allField2 = [];
@@ -175,7 +163,7 @@ function changeImg(e) {
 }
 function setHandler() {
   let a;
-  console.log(allField2)
+
   arrayOfGotElementById.forEach((item) => {
     item.addEventListener('click', changeImg);
     item.addEventListener('contextmenu', setGrayDot);
@@ -370,6 +358,7 @@ let operationFuncs = {
 function init() {
   createAllField(allField); // создаются строки от "00" до "09"
   createAllField1(allField); // создаются остальные числа в виде строк от "10" до "99"
+  console.log(allField)
   allField.forEach((item) => allField2.push(item));
   allField2.forEach((item) => {
     arrayOfGotElementById.push(document.getElementById(item));
@@ -389,9 +378,6 @@ function init() {
     checkMassiv1(allField, rowCol);
     objOfOneFloor[i] = rowCol;
     shipsArray.push(rowCol);
-    console.log(objOfOneFloor);
-    console.log(objOfTwoFloor);
-    console.log(objOfThreeFloor);
   }
 
   crTwoFloor();
@@ -405,17 +391,13 @@ function init() {
 
 function createAllField(y) {
   for (let i = 0, len = 0; len < 10; len++) {
-    i = String(i);
-    len = String(len);
-    let lenPlusI = i + len;
-    y.push(lenPlusI);
+    y.push(String(i) + String(len));
   }
 }
 
 function createAllField1(y) {
-  for (let len = 10, x = 0; x < 90; x++, len++) {
-    let lenPlusI1 = String(len);
-    y.push(lenPlusI1);
+  for (let x = 10; x < 100; x++) {
+    y.push(String(x));
   }
 }
 
@@ -436,7 +418,6 @@ function handleFireButton() {
         setHit(trueNumber);
         hits = hits + 1;
         sunkShips.push(trueNumber);
-        console.log(shipsArray)
       } else if (checkSunkMassiv(sunkShips, trueNumber)) {
       } else {
         setMiss(trueNumber);
