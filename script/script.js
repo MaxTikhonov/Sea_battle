@@ -49,8 +49,20 @@ let objOfSunkTwoFloor = {
 }
 
 let objOfSunkThreeFloor = {
-  0: [],
-  1: []
+  0: ['', '', ''],
+  1: ['', '', ''],
+  check(v) {
+    let counter = 0;
+    for (let i = 0; i < this[v].length; i++) {
+      if (this[v][i] != '') {
+        counter++;
+      }
+    }
+    if (counter == 3) {
+      amountOfSunkShipsForPageProof[3]++;
+      return true;
+    }
+  }
 }
 let objOfSunkFourFloor = {
   0: []
@@ -144,6 +156,18 @@ function changeImg(e) {
             }
           }
         }
+        for (let key in objOfThreeFloor) {
+          for (let i = 0; i < 3; i++) {
+            if (objOfThreeFloor[key][i] == a && objOfSunkThreeFloor[key][i] != a) {
+              objOfSunkThreeFloor[key][i] = objOfThreeFloor[key][i];
+              if (objOfSunkThreeFloor.check(key)) {
+                document.querySelector('.message-area').innerHTML = 'Потоплен 3-палубный';
+                document.querySelector('.number-of-3sunk-ships').innerHTML = amountOfSunkShipsForPageProof[3];
+                setTimeout(getMessageArea, 4000);
+              }
+            }
+          }
+        }
         item.src = '/image/ship3.png';
         hits = hits + 1;
         sunkShips.push(a);
@@ -162,8 +186,6 @@ function changeImg(e) {
   })
 }
 function setHandler() {
-  let a;
-
   arrayOfGotElementById.forEach((item) => {
     item.addEventListener('click', changeImg);
     item.addEventListener('contextmenu', setGrayDot);
@@ -358,12 +380,13 @@ let operationFuncs = {
 function init() {
   createAllField(allField); // создаются строки от "00" до "09"
   createAllField1(allField); // создаются остальные числа в виде строк от "10" до "99"
-  console.log(allField)
-  allField.forEach((item) => allField2.push(item));
+  allField.forEach((item) => allField2.push(item)); // здесь я избавляюсь от ссылочной зависимости чтобы скопировать массив
+  console.log(allField2)
   allField2.forEach((item) => {
     arrayOfGotElementById.push(document.getElementById(item));
   })
-  document.getElementById("fireButton").onclick = handleFireButton; // получается кнопка на которую жмет пользователь 
+  console.log(arrayOfGotElementById)
+  document.getElementById("fireButton").onclick = handleFireButton; // здесь получаем кнопку, на которую жмет пользователь 
   // после ввода координат выстрела, и на нее вешается 
   // событие клика, которое вызывает функцию handleFireButton
   document.getElementById("guessInput").onkeydown = handleKeyPress; // получается поле ввода, куда пользователь вводит 
@@ -386,6 +409,10 @@ function init() {
   //   setHit(item);
   // });
   console.log('shipsArray:', shipsArray);
+  console.log('objOfOneFloor', objOfOneFloor);
+  console.log('objOfTwoFloor', objOfTwoFloor);
+  console.log('objOfThreeFloor', objOfThreeFloor);
+
   setHandler();
 }
 
@@ -527,7 +554,6 @@ function delElArray3(arr, x) {
 
 // создает коллекцию двухпалубных кораблей 
 function crTwoFloor() {
-  let h = 0;
   for (; object1.twoFloorVar == false;) {
     for (; object1.twoFloorArr.a.length !== 2;) {
       let rowCol = arrayRandElement(allField);
